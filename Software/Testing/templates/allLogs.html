@@ -1,13 +1,8 @@
 {% extends "layout.html" %}
 {% block body %}
 
-<h2>Dashboard</h2>
-<h6>Current login: {{ session['username'] }}</h6>
-<hr>
-<a name="addResident" class="btn btn-danger" href="/dashboard/addResident" role="button">Add Resident</a>
-<hr>
-{% if last2Logs %} 
-<h3>Logs</h3>
+{% if allTimeLogs %}
+<h2>All Logs</h2>
 <hr>
 <table class="table table-hover">
     <thead>
@@ -18,21 +13,26 @@
         <th scope="col">Type</th>
         <th scope="col">Timer</th>
         <th scope="col">Status</th>
+        <th scope="col">Entry Date</th>
       </tr>
     </thead>
     <tbody>
-        {% for log in last2Logs %}
+        {% for log in allTimeLogs %}
         <tr>   
           <td>{{ log['fullname'] }}</td>
           <td>{{ log['roomNum'] }}</td>
           <td>{{ log['laundryNum'] }}</td>
           <td>{{ log['laundryType'] }}</td>
+          <td></td>
+          <td></td>
+          <td>{{ log['creationDate'] }}</td>
         {% endfor %}
       
     </tbody>
+
 {% else %}
 <div class="alert alert-danger">There are no logs.</div>
-{% endif %}
 
+{% endif %}
 
 {% endblock body %}

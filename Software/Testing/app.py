@@ -66,7 +66,7 @@ def login():
             session["logged_in"] = True
             session["username"] = user['usernameEntry']   
 
-            return redirect(url_for("about"))
+            return redirect(url_for("dashboard"))
         
         else:
             flash("User doesn't exist.","danger")
@@ -104,6 +104,14 @@ def addResident():
     
     return render_template('addResident.html')
 
+@app.route("/allLogs")
+@login_required
+def allLogs():
+    allTimeLogs = logs.find()
+    if allTimeLogs:
+        return render_template('allLogs.html', allTimeLogs=allTimeLogs)
+        
+    return render_template('allLogs.html')
 
 #! Logout
 @app.route('/logout')
