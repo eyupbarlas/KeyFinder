@@ -20,7 +20,7 @@ users = db.users
 logs = db.logs
 feedbacks = db.feedbacks
 
-#! User entry decorator (kinda default stuff except if)
+#! User entry decorator 
 def login_required(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
@@ -35,7 +35,7 @@ def login_required(f):
 @app.before_request
 def make_session_permanent():
     session.permanent = True
-    app.permanent_session_lifetime = timedelta(minutes=5)
+    app.permanent_session_lifetime = timedelta(minutes=15)
 
 # ========================================================================================
 
@@ -60,8 +60,8 @@ def login():
         usr = users.find_one({'username': user['usernameEntry']})
         
         passVerify = sha256_crypt.verify(user['passwordEntry'],usr['password'])
-   
-        if passVerify is True:   
+        
+        if passVerify:   
             flash("Login successful!","success")
             session["logged_in"] = True
             session["username"] = user['usernameEntry']   
@@ -81,8 +81,12 @@ def dashboard():
     last2Logs = []
     for i in logs.find().sort([('$natural', -1)]).limit(2):
         last2Logs.append(i)
+    
     if last2Logs:
         return render_template('dashboard.html', last2Logs=last2Logs)
+    else:
+        flash("Database connection error.", "danger")
+        return render_template('dashboard.html')
 
     return render_template('dashboard.html')
     
@@ -104,6 +108,7 @@ def addResident():
     
     return render_template('addResident.html')
 
+#! All logs for Admin
 @app.route("/allLogs")
 @login_required
 def allLogs():
