@@ -1,7 +1,8 @@
 from flask import Flask, render_template, session, request, redirect, url_for, flash
 from functools import wraps
-from datetime import timedelta
+from datetime import datetime, timedelta
 import pymongo
+from bson.objectid import ObjectId
 from passlib.hash import sha256_crypt 
 # from flaskwebgui import FlaskUI #? This is a test
 
@@ -77,15 +78,36 @@ def login():
 @app.route("/dashboard")
 @login_required
 def dashboard():
-    allLogs = logs.find()
-    if allLogs:
-        return render_template('dashboard.html', allLogs=allLogs)
-    
+    last2Logs = []
+    for i in logs.find().sort([('$natural', -1)]).limit(2):
+        last2Logs.append(i)
+    if last2Logs:
+        return render_template('dashboard.html', last2Logs=last2Logs)
+
     return render_template('dashboard.html')
     
+#! Add resident page
+@app.route("/dashboard/addResident", methods=['GET', 'POST'])
+@login_required
+def addResident():
+    if request.method == 'POST':
+        resident = {
+            'fullname' : request.form.get('residentFullName'),
+            'roomNum' : request.form.get('residentRoomNum'),
+            'laundryNum' : request.form.get('laundryRoomNum'),
+            'laundryType' : request.form.getlist('laundryType'),
+            'creationDate' : datetime.now()
+        }
+        logs.insert_one(resident)
+        flash("Resident saved, timer has been started.","warning")
+        return redirect(url_for('dashboard'))
+    
+    return render_template('addResident.html')
+
 
 #! Logout
 @app.route('/logout')
+@login_required
 def logout():
     session.clear()
     flash("Logout successful.","success")

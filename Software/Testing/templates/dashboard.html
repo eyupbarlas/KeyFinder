@@ -2,29 +2,32 @@
 {% block body %}
 
 <h2>Dashboard</h2>
-<hr><br>
-<a name="addResident" class="btn btn-primary" href="/dashboard/addResident" role="button">Add Resident</a>
 <hr>
-{% if allLogs %}
+<a name="addResident" class="btn btn-danger" href="/dashboard/addResident" role="button">Add Resident</a>
+<hr>
+{% if last2Logs %} 
 <h3>Logs</h3>
 <hr>
-<table class="table table-hover table-dark">
+<table class="table table-hover">
     <thead>
       <tr>
         <th scope="col">Resident</th>
         <th scope="col">Room Number</th>
         <th scope="col">Laundry Room Number</th>
+        <th scope="col">Type</th>
         <th scope="col">Timer</th>
         <th scope="col">Status</th>
       </tr>
     </thead>
     <tbody>
-        {% for log in allLogs %}
-            <tr>
-                <td><a href="#"></a></td>
-                <td><a href="#"></a></td>
-            </tr>
+        {% for log in last2Logs %}
+        <tr>   
+          <td>{{ log['fullname'] }}</td>
+          <td>{{ log['roomNum'] }}</td>
+          <td>{{ log['laundryNum'] }}</td>
+          <td>{{ log['laundryType'] }}</td>
         {% endfor %}
+      
     </tbody>
 {% else %}
 <div class="alert alert-danger">There are no logs.</div>

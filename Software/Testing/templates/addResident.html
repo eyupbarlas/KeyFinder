@@ -1,5 +1,42 @@
 {% extends "layout.html" %}
 {% block body %}
-
+<h3>Add Resident</h3>
+<hr>
+<div class="container">
+    <form method="post">
+        <dl>
+            <div class="mb-3">
+                <label class="form-label">Resident Name</label>
+                <input type="text" class="form-control" name="residentFullName" aria-describedby="residentNameHelp">
+                <div id="nameHelp" class="form-text">Please enter the full name(first name, last name).</div>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Room Number</label>
+                <input type="text" class="form-control" name="residentRoomNum" aria-describedby="roomNumHelp">
+                <div id="roomNumHelp" class="form-text">Please enter student's room number.</div>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Laundry Room Number</label>
+                <input type="text" class="form-control" name="laundryRoomNum" aria-describedby="laundryNumHelp">
+                <div id="laundryNumHelp" class="form-text">Please enter laundry room number.</div>
+            </div>
+            <p>Type of Laundry</p>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="checkbox" name="laundryType" value="White">
+                <label class="form-check-label" for="inlineCheckbox1">White</label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="checkbox" name="laundryType" value="Colored">
+                <label class="form-check-label" for="inlineCheckbox2">Colored</label>
+              </div>
+              <!-- <div class="form-check form-check-inline">
+                <input class="form-check-input" type="checkbox" name="laundryType" value="Both">
+                <label class="form-check-label" for="inlineCheckbox2">White & Colored</label>
+              </div> -->
+              <br><br>
+              <button type="submit" class="btn btn-success mb-3">Save Resident and Start Timer</button>        
+        </dl>
+    </form>
+</div>
 
 {% endblock body %}
