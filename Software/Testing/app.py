@@ -75,20 +75,26 @@ def login():
         return render_template('login.html')
 
 #! Dashboard page
-@app.route("/dashboard")
+@app.route("/dashboard", methods=['GET', 'POST'])
 @login_required
 def dashboard():
-    last2Logs = []
-    for i in logs.find().sort([('$natural', -1)]).limit(2):
-        last2Logs.append(i)
-    
-    if last2Logs:
-        return render_template('dashboard.html', last2Logs=last2Logs)
+    if request.method == "POST":
+        startPause = request.form.get('startPauseToggle')
+        print(startPause)
+        
+        return render_template("dashboard.html", startPause=startPause)
     else:
-        flash("Database connection error.", "danger")
-        return render_template('dashboard.html')
+        last2Logs = []
+        for i in logs.find().sort([('$natural', -1)]).limit(2):
+            last2Logs.append(i)
+    
+        if last2Logs:
+            return render_template('dashboard.html', last2Logs=last2Logs)
+        else:
+            flash("Database connection error.", "danger")
+            return render_template('dashboard.html')
 
-    return render_template('dashboard.html')
+        # return render_template('dashboard.html')
     
 #! Add resident page
 @app.route("/dashboard/addResident", methods=['GET', 'POST'])

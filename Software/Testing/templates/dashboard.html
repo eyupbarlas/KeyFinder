@@ -27,6 +27,17 @@
           <td>{{ log['roomNum'] }}</td>
           <td>{{ log['laundryNum'] }}</td>
           <td>{{ log['laundryType'] }}</td>
+          <td></td>
+          <td>
+            
+              <div class="form-check form-switch">
+                <form action="post">
+                  <input class="form-check-input" type="checkbox" name="startPauseToggle" value="Start">
+                  <label class="form-check-label" for="flexSwitchCheckDefault">Start/Pause</label> 
+                </form>
+              </div>
+            </form> 
+          </td>
         {% endfor %}
       
     </tbody>
