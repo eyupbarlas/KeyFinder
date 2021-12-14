@@ -4,6 +4,8 @@ from datetime import datetime, timedelta
 import pymongo
 from bson.objectid import ObjectId
 from passlib.hash import sha256_crypt 
+import time #? This is a test
+import threading #? This is a test
 # from flaskwebgui import FlaskUI #? This is a test
 
 #! Flask app init
@@ -36,6 +38,16 @@ def make_session_permanent():
     session.permanent = True
     app.permanent_session_lifetime = timedelta(minutes=15)
 
+#! Countdown (doesn't seem to work properly)
+def countdown(hours):
+    while hours:
+        time.sleep(1)
+        hours -= 1
+    
+    print("Time is out.")
+
+def fbMessenger():
+    print("Facebook Messenger notification has been sent.")
 # ========================================================================================
 
 #! Index page
@@ -83,12 +95,12 @@ def dashboard():
         
         return render_template("dashboard.html", startPause=startPause)
     else:
-        last2Logs = []
-        for i in logs.find().sort([('$natural', -1)]).limit(2):
-            last2Logs.append(i)
+        last4Logs = []
+        for i in logs.find().sort([('$natural', -1)]).limit(4):
+            last4Logs.append(i)
     
-        if last2Logs:
-            return render_template('dashboard.html', last2Logs=last2Logs)
+        if last4Logs:
+            return render_template('dashboard.html', last4Logs=last4Logs)
         else:
             flash("Database connection error.", "danger")
             return render_template('dashboard.html')
@@ -112,6 +124,17 @@ def addResident():
         flash("Resident saved, timer has been started.","warning")
 
         #TODO -> Timer object will come here.
+        #* Using countdown function ==> didn't work
+        # hours = 5 #? This is the time(seconds) in int type. This part will change depending on type of clothes and coin count.
+        # # hours = hours * 3600 #? Seconds to hours
+        # countdown(int(hours))
+        
+        #* Using threads
+        hours = 5.0 #? This is the time(seconds) in float type. This part will change depending on type of clothes and coin count.
+        # hours = hours * 3600 #? Seconds to hours
+        timer = threading.Timer(hours, fbMessenger)
+        timer.start() 
+        print("Why dis shit is not working?!")
 
         return redirect(url_for('dashboard'))
     
@@ -121,7 +144,7 @@ def addResident():
 @app.route("/allLogs")
 @login_required
 def allLogs():
-    allTimeLogs = logs.find()
+    allTimeLogs = logs.find().sort([('$natural', -1)])
     if allTimeLogs:
         return render_template('allLogs.html', allTimeLogs=allTimeLogs)
         

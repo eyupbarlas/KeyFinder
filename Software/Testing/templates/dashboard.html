@@ -6,7 +6,7 @@
 <hr>
 <a name="addResident" class="btn btn-danger" href="/dashboard/addResident" role="button">Add Resident</a>
 <hr>
-{% if last2Logs %} 
+{% if last4Logs %} 
 <h3>Logs</h3>
 <hr>
 <table class="table table-hover">
@@ -21,7 +21,7 @@
       </tr>
     </thead>
     <tbody>
-        {% for log in last2Logs %}
+        {% for log in last4Logs %}
         <tr>   
           <td>{{ log['fullname'] }}</td>
           <td>{{ log['roomNum'] }}</td>
