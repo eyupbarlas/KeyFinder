@@ -1,3 +1,12 @@
+"""
+!                                                   ----- KeyFinder -----
+TODO: Ideas and Suggestions:
+* There's a problem with the timer module.
+    -> Timer object can be created using Threads but after the time limit is finished, we need to send 
+    notifications every hour.
+    
+"""
+
 from flask import Flask, render_template, session, request, redirect, url_for, flash
 from functools import wraps
 from datetime import datetime, timedelta
@@ -38,7 +47,7 @@ def make_session_permanent():
     session.permanent = True
     app.permanent_session_lifetime = timedelta(minutes=15)
 
-#! Countdown (doesn't seem to work properly)
+#! Countdown (doesn't seem to work properly, still keeping it maybe useful in future)
 def countdown(hours):
     while hours:
         time.sleep(1)
@@ -124,17 +133,18 @@ def addResident():
         flash("Resident saved, timer has been started.","warning")
 
         #TODO -> Timer object will come here.
+
         #* Using countdown function ==> didn't work
         # hours = 5 #? This is the time(seconds) in int type. This part will change depending on type of clothes and coin count.
         # # hours = hours * 3600 #? Seconds to hours
         # countdown(int(hours))
         
-        #* Using threads
+        #* Using threads ==> kinda worked, more tests required
         hours = 5.0 #? This is the time(seconds) in float type. This part will change depending on type of clothes and coin count.
         # hours = hours * 3600 #? Seconds to hours
         timer = threading.Timer(hours, fbMessenger)
         timer.start() 
-        print("Why dis shit is not working?!")
+        print("Wait for it, wait for it........")
 
         return redirect(url_for('dashboard'))
     
