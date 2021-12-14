@@ -104,6 +104,7 @@ def addResident():
             'fullname' : request.form.get('residentFullName'),
             'roomNum' : request.form.get('residentRoomNum'),
             'laundryNum' : request.form.get('laundryRoomNum'),
+            'coinCount' : request.form.get('coinCount'),
             'laundryType' : request.form.getlist('laundryType'),
             'creationDate' : datetime.now()
         }
