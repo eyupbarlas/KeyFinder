@@ -18,7 +18,6 @@ client = pymongo.MongoClient('localhost',27017)
 db = client.KeyFinderTest1
 users = db.users
 logs = db.logs
-feedbacks = db.feedbacks
 
 #! User entry decorator 
 def login_required(f):
