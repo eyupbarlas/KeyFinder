@@ -110,6 +110,9 @@ def addResident():
         }
         logs.insert_one(resident)
         flash("Resident saved, timer has been started.","warning")
+
+        #TODO -> Timer object will come here.
+
         return redirect(url_for('dashboard'))
     
     return render_template('addResident.html')
