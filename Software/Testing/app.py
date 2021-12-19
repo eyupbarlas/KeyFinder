@@ -7,7 +7,7 @@ TODO: Ideas and Suggestions:
     
 """
 
-from flask import Flask, render_template, session, request, redirect, url_for, flash
+from flask import Flask, render_template, session, request, redirect, url_for, flash, jsonify
 from functools import wraps
 from datetime import datetime, timedelta
 import pymongo
@@ -52,11 +52,18 @@ def countdown(hours):
     while hours:
         time.sleep(1)
         hours -= 1
+        if hours == 0:
+            break
     
     print("Time is out.")
 
 def fbMessenger():
     print("Facebook Messenger notification has been sent.")
+
+hours = 5.0 #? This is the time(seconds) in float type. This part will change depending on type of clothes and coin count.
+        # hours = hours * 3600 #? Seconds to hours
+timer = threading.Timer(hours, fbMessenger)
+timer.start() 
 # ========================================================================================
 
 #! Index page
@@ -95,27 +102,31 @@ def login():
         return render_template('login.html')
 
 #! Dashboard page
-@app.route("/dashboard", methods=['GET', 'POST'])
+@app.route("/dashboard")
 @login_required
 def dashboard():
-    if request.method == "POST":
-        startPause = request.form.get('startPauseToggle')
-        print(startPause)
-        
-        return render_template("dashboard.html", startPause=startPause)
-    else:
-        last4Logs = []
-        for i in logs.find().sort([('$natural', -1)]).limit(4):
-            last4Logs.append(i)
-    
-        if last4Logs:
-            return render_template('dashboard.html', last4Logs=last4Logs)
-        else:
-            flash("Database connection error.", "danger")
-            return render_template('dashboard.html')
+    last4Logs = []
+    for i in logs.find().sort([('$natural', -1)]).limit(4):
+        last4Logs.append(i)
 
-        # return render_template('dashboard.html')
+    if last4Logs:
+        return render_template('dashboard.html', last4Logs=last4Logs, countdownTest=timer)
+    else:
+        flash("Database connection error.", "danger")
+        return render_template('dashboard.html')
+
+    # return render_template('dashboard.html')
     
+#! Timer Object
+@app.route("/updateTimer", methods=['POST'])
+def updateTimer():
+    hours = 5.0 #? This is the time(seconds) in float type. This part will change depending on type of clothes and coin count.
+        # hours = hours * 3600 #? Seconds to hours
+    timer = threading.Timer(hours, fbMessenger)
+    timer.start() 
+
+    return jsonify(render_template("timer.html", countdownTest=timer))
+
 #! Add resident page
 @app.route("/dashboard/addResident", methods=['GET', 'POST'])
 @login_required

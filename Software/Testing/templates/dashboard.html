@@ -28,7 +28,9 @@
           <td>{{ log['roomNum'] }}</td>
           <td>{{ log['laundryNum'] }}</td>
           <td>{{ log['laundryType'] }}</td>
-          <td></td>
+          <td>
+            <div id="countdownTest"><p>{{countdownTest}}</p></div>
+          </td>
           <td>
             
               <div class="form-check form-switch">
@@ -46,5 +48,22 @@
 <div class="alert alert-danger">There are no logs.</div>
 {% endif %}
 
+<script>
+  $(function(){ // Encapsulating function
+    window.setInterval(function(){  // every 1000 ms, run loadNewDecimal()
+      countdownClock()
+    }, 1000) 
 
+  function countdownClock(){
+    $.ajax({ // defining some variables for AJAX
+        url:"/updateTimer",
+        type:"POST",
+        dataType:"json",
+        success:function(data){ // in here, data gets replaced in the div(id has to be specified)
+            $(countdownTest).replaceWith(data)
+          }
+    });
+}
+});
+</script>
 {% endblock body %}
