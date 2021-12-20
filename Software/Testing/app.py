@@ -47,23 +47,10 @@ def make_session_permanent():
     session.permanent = True
     app.permanent_session_lifetime = timedelta(minutes=15)
 
-#! Countdown (doesn't seem to work properly, still keeping it maybe useful in future)
-def countdown(hours):
-    while hours:
-        time.sleep(1)
-        hours -= 1
-        if hours == 0:
-            break
-    
-    print("Time is out.")
 
 def fbMessenger():
     print("Facebook Messenger notification has been sent.")
 
-hours = 5.0 #? This is the time(seconds) in float type. This part will change depending on type of clothes and coin count.
-        # hours = hours * 3600 #? Seconds to hours
-timer = threading.Timer(hours, fbMessenger)
-timer.start() 
 # ========================================================================================
 
 #! Index page
@@ -110,7 +97,7 @@ def dashboard():
         last4Logs.append(i)
 
     if last4Logs:
-        return render_template('dashboard.html', last4Logs=last4Logs, countdownTest=timer)
+        return render_template('dashboard.html', last4Logs=last4Logs)
     else:
         flash("Database connection error.", "danger")
         return render_template('dashboard.html')
@@ -118,14 +105,14 @@ def dashboard():
     # return render_template('dashboard.html')
     
 #! Timer Object
-@app.route("/updateTimer", methods=['POST'])
-def updateTimer():
-    hours = 5.0 #? This is the time(seconds) in float type. This part will change depending on type of clothes and coin count.
-        # hours = hours * 3600 #? Seconds to hours
-    timer = threading.Timer(hours, fbMessenger)
-    timer.start() 
+# @app.route("/updateTimer", methods=['POST'])
+# def updateTimer():
+#     hours = 5.0 #? This is the time(seconds) in float type. This part will change depending on type of clothes and coin count.
+#         # hours = hours * 3600 #? Seconds to hours
+#     timer = threading.Timer(hours, fbMessenger)
+#     timer.start() 
 
-    return jsonify(render_template("timer.html", countdownTest=timer))
+#     return jsonify(render_template("timer.html", countdownTest=timer))
 
 #! Add resident page
 @app.route("/dashboard/addResident", methods=['GET', 'POST'])
@@ -151,11 +138,11 @@ def addResident():
         # countdown(int(hours))
         
         #* Using threads ==> kinda worked, more tests required
-        hours = 5.0 #? This is the time(seconds) in float type. This part will change depending on type of clothes and coin count.
+        # hours = 5.0 #? This is the time(seconds) in float type. This part will change depending on type of clothes and coin count.
         # hours = hours * 3600 #? Seconds to hours
-        timer = threading.Timer(hours, fbMessenger)
-        timer.start() 
-        print("Wait for it, wait for it........")
+        # timer = threading.Timer(hours, fbMessenger)
+        # timer.start() 
+        # print("Wait for it, wait for it........")
 
         return redirect(url_for('dashboard'))
     
