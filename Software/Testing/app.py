@@ -48,8 +48,8 @@ def make_session_permanent():
     app.permanent_session_lifetime = timedelta(minutes=15)
 
 
-def fbMessenger():
-    print("Facebook Messenger notification has been sent.")
+def telegramNotification():
+    print("Telegram notification has been sent.")
 
 # ========================================================================================
 
@@ -109,7 +109,7 @@ def dashboard():
 # def updateTimer():
 #     hours = 5.0 #? This is the time(seconds) in float type. This part will change depending on type of clothes and coin count.
 #         # hours = hours * 3600 #? Seconds to hours
-#     timer = threading.Timer(hours, fbMessenger)
+#     timer = threading.Timer(hours, telegramNotification)
 #     timer.start() 
 
 #     return jsonify(render_template("timer.html", countdownTest=timer))
@@ -140,7 +140,7 @@ def addResident():
         #* Using threads ==> kinda worked, more tests required
         # hours = 5.0 #? This is the time(seconds) in float type. This part will change depending on type of clothes and coin count.
         # hours = hours * 3600 #? Seconds to hours
-        # timer = threading.Timer(hours, fbMessenger)
+        # timer = threading.Timer(hours, telegramNotification)
         # timer.start() 
         # print("Wait for it, wait for it........")
 
