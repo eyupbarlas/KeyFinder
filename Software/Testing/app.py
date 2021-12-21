@@ -30,6 +30,7 @@ client = pymongo.MongoClient('localhost',27017)
 db = client.KeyFinderTest1
 users = db.users
 logs = db.logs
+telegramInfo = db.telegramInfo
 
 #! User entry decorator 
 def login_required(f):
@@ -48,10 +49,11 @@ def make_session_permanent():
     session.permanent = True
     app.permanent_session_lifetime = timedelta(minutes=15)
 
-
-def telegramNotificationSend(botMessage):
-    bot_token = '5039844581:AAEJ3ZgnE3bFcljj_qduAGCCVhRC27I4k3A'
-    bot_chatID = '1146185725'
+#! Telegram Notification
+#TODO=> Bot token and ChatID has to come from database
+def telegramNotificationSend(botMessage, botToken, botChatID):
+    bot_token = botToken
+    bot_chatID = botChatID
     sendMessage = 'https://api.telegram.org/bot' + bot_token + '/sendMessage?chat_id=' + bot_chatID + \
                 '&parse_mode=Markdown&text=' + botMessage
 
@@ -149,6 +151,14 @@ def addResident():
         # timer = threading.Timer(hours, telegramNotification)
         # timer.start() 
         # print("Wait for it, wait for it........")
+
+        #TODO -> Telegram Notifications testing
+        #* After saving a customer, a notification will be sent
+        checkCustomer = telegramInfo.find_one({"customerName":resident['fullname']})
+    
+        if checkCustomer:
+            telegramNotificationSend(f"***{resident['fullname']}***, your timer has been started. Current date and time: `{datetime.now()}`",
+                                     botToken=checkCustomer['token'], botChatID=checkCustomer['chatID'])
 
         return redirect(url_for('dashboard'))
     
