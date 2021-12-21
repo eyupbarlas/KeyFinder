@@ -12,7 +12,8 @@ from functools import wraps
 from datetime import datetime, timedelta
 import pymongo
 from bson.objectid import ObjectId
-from passlib.hash import sha256_crypt 
+from passlib.hash import sha256_crypt
+import requests
 import time #? This is a test
 import threading #? This is a test
 # from flaskwebgui import FlaskUI #? This is a test
@@ -48,8 +49,13 @@ def make_session_permanent():
     app.permanent_session_lifetime = timedelta(minutes=15)
 
 
-def telegramNotification():
-    print("Telegram notification has been sent.")
+def telegramNotificationSend(botMessage):
+    bot_token = '5039844581:AAEJ3ZgnE3bFcljj_qduAGCCVhRC27I4k3A'
+    bot_chatID = '1146185725'
+    sendMessage = 'https://api.telegram.org/bot' + bot_token + '/sendMessage?chat_id=' + bot_chatID + \
+                '&parse_mode=Markdown&text=' + botMessage
+
+    requests.get(sendMessage)
 
 # ========================================================================================
 
@@ -173,3 +179,4 @@ if __name__ == "__main__":
     # x = sha256_crypt.encrypt("1234")
     # print(x)
     
+    # telegramNotificationSend("Wazzup")
