@@ -139,12 +139,6 @@ def addResident():
         flash("Resident saved, timer has been started.","warning")
 
         #TODO -> Timer object will come here.
-
-        #* Using countdown function ==> didn't work
-        # hours = 5 #? This is the time(seconds) in int type. This part will change depending on type of clothes and coin count.
-        # # hours = hours * 3600 #? Seconds to hours
-        # countdown(int(hours))
-        
         #* Using threads ==> kinda worked, more tests required
         # hours = 5.0 #? This is the time(seconds) in float type. This part will change depending on type of clothes and coin count.
         # hours = hours * 3600 #? Seconds to hours
