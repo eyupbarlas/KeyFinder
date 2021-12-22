@@ -12,7 +12,8 @@ from functools import wraps
 from datetime import datetime, timedelta
 import pymongo
 from bson.objectid import ObjectId
-from passlib.hash import sha256_crypt 
+from passlib.hash import sha256_crypt
+import requests
 import time #? This is a test
 import threading #? This is a test
 # from flaskwebgui import FlaskUI #? This is a test
@@ -29,6 +30,7 @@ client = pymongo.MongoClient('localhost',27017)
 db = client.KeyFinderTest1
 users = db.users
 logs = db.logs
+telegramInfo = db.telegramInfo
 
 #! User entry decorator 
 def login_required(f):
@@ -47,9 +49,15 @@ def make_session_permanent():
     session.permanent = True
     app.permanent_session_lifetime = timedelta(minutes=15)
 
+#! Telegram Notification
+#TODO=> Bot token and ChatID has to come from database
+def telegramNotificationSend(botMessage, botToken, botChatID):
+    bot_token = botToken
+    bot_chatID = botChatID
+    sendMessage = 'https://api.telegram.org/bot' + bot_token + '/sendMessage?chat_id=' + bot_chatID + \
+                '&parse_mode=Markdown&text=' + botMessage
 
-def fbMessenger():
-    print("Facebook Messenger notification has been sent.")
+    requests.get(sendMessage)
 
 # ========================================================================================
 
@@ -109,7 +117,7 @@ def dashboard():
 # def updateTimer():
 #     hours = 5.0 #? This is the time(seconds) in float type. This part will change depending on type of clothes and coin count.
 #         # hours = hours * 3600 #? Seconds to hours
-#     timer = threading.Timer(hours, fbMessenger)
+#     timer = threading.Timer(hours, telegramNotification)
 #     timer.start() 
 
 #     return jsonify(render_template("timer.html", countdownTest=timer))
@@ -131,18 +139,20 @@ def addResident():
         flash("Resident saved, timer has been started.","warning")
 
         #TODO -> Timer object will come here.
-
-        #* Using countdown function ==> didn't work
-        # hours = 5 #? This is the time(seconds) in int type. This part will change depending on type of clothes and coin count.
-        # # hours = hours * 3600 #? Seconds to hours
-        # countdown(int(hours))
-        
         #* Using threads ==> kinda worked, more tests required
         # hours = 5.0 #? This is the time(seconds) in float type. This part will change depending on type of clothes and coin count.
         # hours = hours * 3600 #? Seconds to hours
-        # timer = threading.Timer(hours, fbMessenger)
+        # timer = threading.Timer(hours, telegramNotification)
         # timer.start() 
         # print("Wait for it, wait for it........")
+
+        #TODO -> Telegram Notifications testing
+        #* After saving a customer, a notification will be sent
+        checkCustomer = telegramInfo.find_one({"customerName":resident['fullname']})
+    
+        if checkCustomer:
+            telegramNotificationSend(f"***{resident['fullname']}***, your timer has been started. Current date and time: `{datetime.now()}`",
+                                     botToken=checkCustomer['token'], botChatID=checkCustomer['chatID'])
 
         return redirect(url_for('dashboard'))
     
@@ -173,3 +183,4 @@ if __name__ == "__main__":
     # x = sha256_crypt.encrypt("1234")
     # print(x)
     
+    # telegramNotificationSend("Wazzup")
