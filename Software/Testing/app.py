@@ -102,7 +102,7 @@ def dashboard():
         last4Logs.append(i)
 
     if last4Logs:
-        return render_template('dashboard.html', last4Logs=last4Logs, data=data)
+        return render_template('dashboard.html', last4Logs=last4Logs)
     else:
         flash("Database connection error.", "danger")
         return render_template('dashboard.html')
