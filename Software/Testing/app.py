@@ -11,9 +11,10 @@ from flask import Flask, render_template, session, request, redirect, url_for, f
 from functools import wraps
 from datetime import datetime, timedelta
 import pymongo
+import requests
 from bson.objectid import ObjectId
 from passlib.hash import sha256_crypt
-import requests
+
 import time #? This is a test
 import threading #? This is a test
 # from flaskwebgui import FlaskUI #? This is a test
@@ -101,17 +102,21 @@ def login():
 @login_required
 def dashboard():
     last4Logs = []
+    #last4LogsTime = []
+    data = ['test1','test2','test3','test4']
+    
     for i in logs.find().sort([('$natural', -1)]).limit(4):
         last4Logs.append(i)
 
+    #for post in logs.find({"fullname": "Waasiq"}):
+    #    print(post['givenTime'])
+
     if last4Logs:
-        return render_template('dashboard.html', last4Logs=last4Logs)
+        return render_template('dashboard.html', last4Logs=last4Logs, data=data)
     else:
         flash("Database connection error.", "danger")
         return render_template('dashboard.html')
-
-    # return render_template('dashboard.html')
-    
+        
 #! Timer Object
 # @app.route("/updateTimer", methods=['POST'])
 # def updateTimer():
@@ -133,7 +138,11 @@ def addResident():
             'laundryNum' : request.form.get('laundryRoomNum'),
             'coinCount' : request.form.get('coinCount'),
             'laundryType' : request.form.getlist('laundryType'),
-            'creationDate' : datetime.now()
+            'creationDate' : datetime.now(),
+            'givenTime': request.form.get('timeGiven')
+
+            #! Insert timer here after calculation w.r.t to the coins and 
+            #! color type.
         }
         logs.insert_one(resident)
         flash("Resident saved, timer has been started.","warning")

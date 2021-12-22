@@ -3,7 +3,7 @@
 {% block body %}
 
 <h2>Dashboard</h2>
-<h6>Current login: {{ session['username'] }}</h6>
+<h6> Current login: {{ session['username'] }} </h6>
 <hr>
 <a name="addResident" class="btn btn-danger" href="/dashboard/addResident" role="button">Add Resident</a>
 <hr>
@@ -29,18 +29,24 @@
           <td>{{ log['laundryNum'] }}</td>
           <td>{{ log['laundryType'] }}</td>
           <td>
-            <span id="timer"></span>
+            <span class="timer">{{ log['givenTime'] }}</span>        
           </td>
-          <td>
-            
+          <td>            
               <div class="form-check form-switch">
                 <form action="post">
-                  <input class="form-check-input" id="switch" type="checkbox" name="startPauseToggle" value="Start">
-                  <label class="form-check-label" for="flexSwitchCheckDefault">Start/Pause</label> 
+                  <button type="button" class="btn btn-primary start">Start</button> 
                 </form>
               </div>
             </form> 
           </td>
+          <td>            
+            <div class="form-check form-switch">
+              <form action="post">
+                <button type="button" class="btn btn-warning stop">Pause</button> 
+              </form>
+            </div>
+          </form> 
+        </td>
         {% endfor %}
       
     </tbody>
@@ -49,48 +55,52 @@
 {% endif %}
 
 <script type="application/javascript">
-  const timer = document.getElementById('timer');
-  const switchBtn = document.getElementById('switch');
-
-  var totalTime = 10; //! Get this value from outside
-  var count = 0;
+  var timer = document.querySelectorAll('.timer');
+  var startBtns = document.querySelectorAll('.start');
+  var stopBtns = document.querySelectorAll('.stop');
   
-  const displayTime = (totalTime) => {
-    timer.innerHTML = totalTime;
-  }
+  var startBtnLength = startBtns.length;
 
-  displayTime(totalTime);
-
-  const isPositive = (number) => {
-      return 1/(number * 10) === 1/0;
-  } 
-
-  switchBtn.addEventListener('change', e => {
-      if (e.target.checked === true)
-      { 
-        switchBtn.disabled = true; 
-        var countDown = setInterval(() => {
-            if (totalTime <= 0)
-            {
-              switchBtn.disabled = false; 
-              alert("Time finished");
-              totalTime = 10;
-              clearInterval(countDown);
-              switchBtn.checked = false; 
-              timer.innerHTML = totalTime;                         
-            }
-            else
-            {
-                totalTime--;
-                timer.innerHTML = totalTime;   
-            }
-       
-        }, 1000);
-        countDown;
+  var timerData = [];
+  const getTimerData = () => {
+      for (var i = 0 ; i < timer.length ; i++)
+      {
+         timerData = [...timerData, timer[i].innerHTML];
       }
+  }
+  getTimerData();
 
-  });
+
+  for (let i = 0; i < startBtnLength; i++) {
+      let totalTime = timerData[i];
+      let count = 0;
+      let countDown;  
+      
+      stopBtns[i].addEventListener('click', () => {
+            startBtns[i].disabled = false;
+            clearInterval(countDown);
+      });
+
+      startBtns[i].addEventListener('click', () => {
+        startBtns[i].disabled = true;          
   
+        countDown = setInterval(() => {           
+          if (totalTime <= 0)
+          {
+            alert("Time finished");
+            clearInterval(countDown);  
+            totalTime = timerData[i];    
+            timer[i].innerHTML = totalTime;    
+            startBtns[i].disabled = false;              
+          }
+          else
+          {
+              totalTime--;
+              timer[i].innerHTML = totalTime;             
+          }
+      }, 1000);
+    })
+  }  
 </script>
 
 {% endblock body %}
