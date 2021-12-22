@@ -1,10 +1,5 @@
 """
 !                                                   ----- KeyFinder -----
-TODO: Ideas and Suggestions:
-* There's a problem with the timer module.
-    -> Timer object can be created using Threads but after the time limit is finished, we need to send 
-    notifications every hour.
-    
 """
 
 from flask import Flask, render_template, session, request, redirect, url_for, flash, jsonify
@@ -102,14 +97,9 @@ def login():
 @login_required
 def dashboard():
     last4Logs = []
-    #last4LogsTime = []
-    data = ['test1','test2','test3','test4']
-    
+
     for i in logs.find().sort([('$natural', -1)]).limit(4):
         last4Logs.append(i)
-
-    #for post in logs.find({"fullname": "Waasiq"}):
-    #    print(post['givenTime'])
 
     if last4Logs:
         return render_template('dashboard.html', last4Logs=last4Logs, data=data)
@@ -117,16 +107,6 @@ def dashboard():
         flash("Database connection error.", "danger")
         return render_template('dashboard.html')
         
-#! Timer Object
-# @app.route("/updateTimer", methods=['POST'])
-# def updateTimer():
-#     hours = 5.0 #? This is the time(seconds) in float type. This part will change depending on type of clothes and coin count.
-#         # hours = hours * 3600 #? Seconds to hours
-#     timer = threading.Timer(hours, telegramNotification)
-#     timer.start() 
-
-#     return jsonify(render_template("timer.html", countdownTest=timer))
-
 #! Add resident page
 @app.route("/dashboard/addResident", methods=['GET', 'POST'])
 @login_required
@@ -140,21 +120,10 @@ def addResident():
             'laundryType' : request.form.getlist('laundryType'),
             'creationDate' : datetime.now(),
             'givenTime': request.form.get('givenTime')
-
-            #! Insert timer here after calculation w.r.t to the coins and 
-            #! color type.
         }
-        print(request.form.get('givenTime'))
+
         logs.insert_one(resident)
         flash("Resident saved, timer has been started.","warning")
-
-        #TODO -> Timer object will come here.
-        #* Using threads ==> kinda worked, more tests required
-        # hours = 5.0 #? This is the time(seconds) in float type. This part will change depending on type of clothes and coin count.
-        # hours = hours * 3600 #? Seconds to hours
-        # timer = threading.Timer(hours, telegramNotification)
-        # timer.start() 
-        # print("Wait for it, wait for it........")
 
         #TODO -> Telegram Notifications testing
         #* After saving a customer, a notification will be sent
