@@ -19,7 +19,6 @@
         <th scope="col">Laundry Type</th>
         <th scope="col">Timer</th>
         <th scope="col">Status</th>
-        <!-- <th scope="col">Returned</th> -->
       </tr>
     </thead>
     <tbody>
@@ -30,26 +29,18 @@
           <td>{{ log['laundryNum'] }}</td>
           <td>{{ log['laundryType'] }}</td>
           <td>
-            <div id="countdownTest"><p>{{countdownTest}}</p></div>
+            <span id="timer"></span>
           </td>
           <td>
             
               <div class="form-check form-switch">
                 <form action="post">
-                  <input class="form-check-input" type="checkbox" name="startPauseToggle" value="Start">
+                  <input class="form-check-input" id="switch" type="checkbox" name="startPauseToggle" value="Start">
                   <label class="form-check-label" for="flexSwitchCheckDefault">Start/Pause</label> 
                 </form>
               </div>
             </form> 
           </td>
-          <!-- <td>            
-            <div class="form-check form-switch">
-              <form action="post">
-                <button type="button" id="returned" class="btn btn-danger">Danger</button> 
-              </form>
-            </div>
-          </form> 
-        </td> -->
         {% endfor %}
       
     </tbody>
@@ -57,13 +48,9 @@
 <div class="alert alert-danger">There are no logs.</div>
 {% endif %}
 
-<<<<<<< Updated upstream
-=======
 <script type="application/javascript">
   const timer = document.getElementById('timer');
   const switchBtn = document.getElementById('switch');
-  const returnBtn = document.getElementById('returned');
-
 
   var totalTime = 10; //! Get this value from outside
   var count = 0;
@@ -98,29 +85,12 @@
                 timer.innerHTML = totalTime;   
             }
        
-            
-            // if (!isPositive(totalTime) && totalTime%10 === 0)
-            // {
-            //     count++;
-            //     alert('Woah..' + count);               
-            //     //window.location.href = "{{ url_for( 'dashboard' ) }}";
-            //     //! POSSIBLE WITH AJAX TOO 
-            // }
-                    
         }, 1000);
         countDown;
       }
-
-      // returnBtn.addEventListener('click', ()=>
-      // {
-      //     //totalTime = 2; // Change the total time w.r.t to here.
-      //     alert("Fuck");
-      // });
-
 
   });
   
 </script>
 
->>>>>>> Stashed changes
 {% endblock body %}
