@@ -139,11 +139,12 @@ def addResident():
             'coinCount' : request.form.get('coinCount'),
             'laundryType' : request.form.getlist('laundryType'),
             'creationDate' : datetime.now(),
-            'givenTime': request.form.get('timeGiven')
+            'givenTime': request.form.get('givenTime')
 
             #! Insert timer here after calculation w.r.t to the coins and 
             #! color type.
         }
+        print(request.form.get('givenTime'))
         logs.insert_one(resident)
         flash("Resident saved, timer has been started.","warning")
 
