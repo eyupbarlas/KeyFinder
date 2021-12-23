@@ -1,5 +1,6 @@
 """
 !                                                   ----- KeyFinder -----
+    
 """
 
 from flask import Flask, render_template, session, request, redirect, url_for, flash, jsonify
@@ -97,7 +98,7 @@ def login():
 @login_required
 def dashboard():
     last4Logs = []
-
+    
     for i in logs.find().sort([('$natural', -1)]).limit(4):
         last4Logs.append(i)
 
@@ -106,7 +107,7 @@ def dashboard():
     else:
         flash("Database connection error.", "danger")
         return render_template('dashboard.html')
-        
+
 #! Add resident page
 @app.route("/dashboard/addResident", methods=['GET', 'POST'])
 @login_required
@@ -119,9 +120,12 @@ def addResident():
             'coinCount' : request.form.get('coinCount'),
             'laundryType' : request.form.getlist('laundryType'),
             'creationDate' : datetime.now(),
-            'time': request.form.get('time')
-        }
+            'givenTime': request.form.get('givenTime')
 
+            #! Insert timer here after calculation w.r.t to the coins and 
+            #! color type.
+        }
+        print(request.form.get('givenTime'))
         logs.insert_one(resident)
         flash("Resident saved, timer has been started.","warning")
 
