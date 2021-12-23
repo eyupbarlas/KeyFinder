@@ -1,128 +1,85 @@
-{% extends "layout.html" %} {% block title %}Add Resident{% endblock title %} {%
-block body %}
+{% extends "layout.html" %}
+{% block title %}Add Resident{% endblock title %}
+{% block body %}
 <h3>Add Resident</h3>
-<hr />
+<hr>
 <div class="container">
-  <form method="post" class="needs-validation">
-    <dl>
-      <div class="mb-3">
-        <label class="form-label">Resident Name</label>
-        <input
-          type="text"
-          class="form-control"
-          name="residentFullName"
-          aria-describedby="residentNameHelp"
-        />
-        <div id="nameHelp" class="form-text">
-          Please enter the full name(first name, last name).
-        </div>
-      </div>
-      <div class="mb-3">
-        <label class="form-label">Room Number</label>
-        <input
-          type="text"
-          class="form-control"
-          name="residentRoomNum"
-          aria-describedby="roomNumHelp"
-        />
-        <div id="roomNumHelp" class="form-text">
-          Please enter resident's room number.
-        </div>
-      </div>
-      <div class="mb-3">
-        <label class="form-label">Laundry Room Number</label>
-        <input
-          type="text"
-          class="form-control"
-          name="laundryRoomNum"
-          aria-describedby="laundryNumHelp"
-        />
-        <div id="laundryNumHelp" class="form-text">
-          Please enter laundry room number.
-        </div>
-      </div>
-      <div class="mb-3">
-        <label class="form-label">Coin Count</label>
-        <input
-          type="number"
-          id="coin-count"
-          class="form-control"
-          name="coinCount"
-          aria-describedby="coinCountHelp"
-        />
-        <div id="coinCountHelp" class="form-text">
-          Please enter the number of coins.
-        </div>
-      </div>
-      <p>Type of Laundry</p>
-      <div class="form-check form-check-inline">
-        <input
-          class="form-check-input"
-          id="checkBox-white"
-          type="checkbox"
-          name="laundryType"
-          value="White"
-        />
-        <label class="form-check-label" for="inlineCheckbox1">White</label>
-      </div>
-      <div class="form-check form-check-inline">
-        <input
-          class="form-check-input"
-          id="checkBox-colored"
-          type="checkbox"
-          name="laundryType"
-          value="Colored"
-        />
-        <label class="form-check-label" for="inlineCheckbox2">Colored</label>
-      </div>
-      <br /><br />
+    <form method="post" class="needs-validation">
+        <dl>
+            <div class="mb-3">
+                <label class="form-label">Resident Name</label>
+                <input type="text" class="form-control" name="residentFullName" aria-describedby="residentNameHelp">
+                <div id="nameHelp" class="form-text">Please enter the full name(first name, last name).</div>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Room Number</label>
+                <input type="text" class="form-control" name="residentRoomNum" aria-describedby="roomNumHelp">
+                <div id="roomNumHelp" class="form-text">Please enter resident's room number.</div>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Laundry Room Number</label>
+                <input type="text" class="form-control" name="laundryRoomNum" aria-describedby="laundryNumHelp">
+                <div id="laundryNumHelp" class="form-text">Please enter laundry room number.</div>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Coin Count</label>
+                <input type="number" id="coin-count" class="form-control" name="coinCount" aria-describedby="coinCountHelp">
+                <div id="coinCountHelp" class="form-text">Please enter the number of coins.</div>
+            </div>
+            <p>Type of Laundry</p>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" id="checkBox-white" type="checkbox" name="laundryType" value="White">
+                <label class="form-check-label" for="inlineCheckbox1">White</label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" id="checkBox-colored" type="checkbox" name="laundryType" value="Colored">
+                <label class="form-check-label" for="inlineCheckbox2">Colored</label>
+              </div>
+              <br><br>
+              
+              <div class="mb-3">
+                <input type="text" id="time-given" class="form-control" name="givenTime">
+                <div class="form-text">Time</div>
+              </div>
+              <button type="button" id="calc-time" class="btn btn-primary mb-3">Calculate Time</button>
 
-      <div class="mb-3">
-        <input
-          type="text"
-          id="time-given"
-          class="form-control"
-          name="givenTime"
-        />
-        <div class="form-text">Time</div>
-      </div>
-      <button type="button" id="calc-time" class="btn btn-primary mb-3">
-        Calculate Time
-      </button>
-
-      <br />
-      <button type="submit" class="btn btn-success mb-3">
-        Save Resident and Start Timer
-      </button>
-    </dl>
-  </form>
+            <br>
+            <button type="submit" class="btn btn-success mb-3">Save Resident and Start Timer</button>        
+        </dl>
+    </form>
 </div>
 
 <script>
-  // All time is in minutes
-  const coinCount = document.getElementById("coin-count");
-  const checkedWhite = document.getElementById("checkBox-white");
-  const checkedColor = document.getElementById("checkBox-colored");
-  const calcTime = document.getElementById("calc-time");
-  const timeGiven = document.getElementById("time-given");
+    // All time is in minutes
+    const coinCount = document.getElementById('coin-count');
+    const checkedWhite = document.getElementById('checkBox-white');
+    const checkedColor = document.getElementById('checkBox-colored');
+    const calcTime = document.getElementById('calc-time');
+    const timeGiven = document.getElementById('time-given');
 
-  let whiteTime = 65,
-    coloredTime = 45;
-  let dryTime = 45;
-  let transferTime = 5;
-  let totalTime = 0;
+    let whiteTime = 65, coloredTime = 45;
+    let dryTime = 45;
+    let transferTime = 5;    
+    let totalTime = 0;
 
-  calcTime.addEventListener("click", () => {
-    if (checkedWhite.checked && checkedColor.checked) {
-      totalTime = whiteTime + coloredTime + transferTime + dryTime * 2;
-    } else if (checkedColor.checked && !checkedWhite.checked) {
-      totalTime = coloredTime + transferTime + dryTime;
-    } else if (checkedWhite.checked && !checkedColor.checked) {
-      totalTime = whiteTime + transferTime + dryTime;
-    }
+    calcTime.addEventListener('click', ()=> { 
+        if (checkedWhite.checked && checkedColor.checked)
+        {
+            totalTime = whiteTime + coloredTime + transferTime + (dryTime*2);
+        }
+        else if (checkedColor.checked && !checkedWhite.checked)
+        {
+            totalTime = coloredTime + transferTime + dryTime;
+        }
+        else if (checkedWhite.checked && !checkedColor.checked)
+        {
+            totalTime = whiteTime + transferTime + dryTime;
+        }
 
-    console.log(totalTime);
-    timeGiven.value = totalTime;
-  });
+        console.log(totalTime);
+        timeGiven.value = totalTime;
+    });
+
+    
 </script>
 {% endblock body %}
