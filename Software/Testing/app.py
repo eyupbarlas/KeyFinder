@@ -119,7 +119,7 @@ def addResident():
             'coinCount' : request.form.get('coinCount'),
             'laundryType' : request.form.getlist('laundryType'),
             'creationDate' : datetime.now(),
-            'givenTime': request.form.get('givenTime')
+            'time': request.form.get('time')
         }
 
         logs.insert_one(resident)
