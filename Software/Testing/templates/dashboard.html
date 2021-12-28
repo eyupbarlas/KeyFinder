@@ -15,10 +15,11 @@
       <tr>
         <th scope="col">Resident</th>
         <th scope="col">Room Number</th>
-        <th scope="col">Laundry Room Number</th>
+        <th scope="col">Laundry Number</th>
         <th scope="col">Laundry Type</th>
         <th scope="col">Timer</th>
         <th scope="col">Start</th>
+        <th scope="col">Pause</th>
         <th scope="col">Stop</th>
       </tr>
     </thead>
@@ -38,16 +39,21 @@
                   <button type="button" class="btn btn-primary start">Start</button> 
                 </form>
               </div>
-            </form> 
           </td>
           <td>            
             <div class="form-check form-switch">
               <form action="post">
-                <button type="button" class="btn btn-warning stop">Pause</button> 
+                <button type="button" class="btn btn-warning pause">Pause</button> 
               </form>
             </div>
-          </form> 
         </td>
+          <td>            
+            <div class="form-check form-switch">
+                <form action="post">
+                  <button type="button" class="btn btn-danger stop">Stop</button> 
+                </form>
+              </div>
+          </td>
         {% endfor %}
       
     </tbody>
@@ -56,8 +62,10 @@
 {% endif %}
 
 <script type="application/javascript">
+  // JAVASCRIPT START
   var timer = document.querySelectorAll('.timer');
   var startBtns = document.querySelectorAll('.start');
+  var pauseBtns = document.querySelectorAll('.pause');
   var stopBtns = document.querySelectorAll('.stop');
   
   var startBtnLength = startBtns.length;
@@ -77,9 +85,16 @@
       let count = 0;
       let countDown;  
       
+      pauseBtns[i].addEventListener('click', () => {
+          startBtns[i].disabled = false;
+          clearInterval(countDown);
+      });
+
       stopBtns[i].addEventListener('click', () => {
-            startBtns[i].disabled = false;
-            clearInterval(countDown);
+          startBtns[i].disabled = true;
+          pauseBtns[i].disabled = true;
+          clearInterval(countDown);
+          stopBtns[i].disabled = true;
       });
 
       startBtns[i].addEventListener('click', () => {
@@ -102,6 +117,7 @@
       }, 1000);
     })
   }  
+  //! JAVASCRIPT END 
 </script>
 
 {% endblock body %}

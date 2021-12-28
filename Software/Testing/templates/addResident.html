@@ -8,17 +8,17 @@
         <dl>
             <div class="mb-3">
                 <label class="form-label">Resident Name</label>
-                <input type="text" class="form-control" name="residentFullName" aria-describedby="residentNameHelp">
+                <input type="text" class="form-control" id="resident-name" name="residentFullName" aria-describedby="residentNameHelp">
                 <div id="nameHelp" class="form-text">Please enter the full name(first name, last name).</div>
             </div>
             <div class="mb-3">
                 <label class="form-label">Room Number</label>
-                <input type="text" class="form-control" name="residentRoomNum" aria-describedby="roomNumHelp">
+                <input type="text" id="room-number" class="form-control" name="residentRoomNum" aria-describedby="roomNumHelp">
                 <div id="roomNumHelp" class="form-text">Please enter resident's room number.</div>
             </div>
             <div class="mb-3">
                 <label class="form-label">Laundry Room Number</label>
-                <input type="text" class="form-control" name="laundryRoomNum" aria-describedby="laundryNumHelp">
+                <input type="text" id="laundary-number" class="form-control" name="laundryRoomNum" aria-describedby="laundryNumHelp">
                 <div id="laundryNumHelp" class="form-text">Please enter laundry room number.</div>
             </div>
             <div class="mb-3">
@@ -38,13 +38,13 @@
               <br><br>
               
               <div class="mb-3">
-                <input type="text" id="time-given" class="form-control" name="givenTime">
+                <input type="text" id="time-given" class="form-control" name="givenTime" readonly="readonly">
                 <div class="form-text">Time</div>
               </div>
               <button type="button" id="calc-time" class="btn btn-primary mb-3">Calculate Time</button>
 
             <br>
-            <button type="submit" class="btn btn-success mb-3">Save Resident and Start Timer</button>        
+            <button type="submit" id="submit-btn" class="btn btn-success mb-3">Save Resident and Start Timer</button>       
         </dl>
     </form>
 </div>
@@ -57,11 +57,18 @@
     const calcTime = document.getElementById('calc-time');
     const timeGiven = document.getElementById('time-given');
 
+    //! Form control elements
+    const residentName = document.getElementById('resident-name');
+    const submitBtn = document.getElementById('submit-btn');
+    const roomNumber = document.getElementById('room-number');
+    const laundaryNumber = document.getElementById('laundary-number');
+    
     let whiteTime = 65, coloredTime = 45;
     let dryTime = 45;
     let transferTime = 5;    
     let totalTime = 0;
 
+    //* Check the calculated time on button click
     calcTime.addEventListener('click', ()=> { 
         if (checkedWhite.checked && checkedColor.checked)
         {
@@ -76,8 +83,48 @@
             totalTime = whiteTime + transferTime + dryTime;
         }
 
-        console.log(totalTime);
+        if (!checkedWhite.checked && !checkedColor.checked)
+        {
+            alert("Please select one of the check boxes");
+        }
+
         timeGiven.value = totalTime;
+    });
+
+    // Form control is done even the final submit button is clicked
+    submitBtn.addEventListener('click', (e)=>
+    {
+        let residentNameStr = residentName.value;
+        let strippedStr = residentNameStr.trim(); 
+
+        var isRoomOnlyNumber = /^\d+$/.test(roomNumber.value);
+        var isLaundaryOnlyNumber = /^\d+$/.test(laundaryNumber.value);
+        var isCoinCountOnlyNumber = /^\d+$/.test(coinCount.value);
+ 
+        if (!isRoomOnlyNumber)
+        {
+            alert("Please put in correct Room number");
+            e.preventDefault();
+        }  
+
+        if(!isLaundaryOnlyNumber)
+        {
+            alert("Please put in correct Laundary Number value");
+            e.preventDefault();
+        }
+
+        if(!isCoinCountOnlyNumber)
+        {
+            alert("Coin count should only be a numbers");
+            e.preventDefault();
+        }
+
+        if (timeGiven.value == 0)
+        {
+            alert("Please calculate the time correctly");
+            e.preventDefault();
+        }
+     
     });
 
     

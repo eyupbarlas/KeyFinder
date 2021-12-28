@@ -1,6 +1,8 @@
 """
 !                                                   ----- KeyFinder -----
-    
+
+* Important info: Only two laundary keys are there i.e 205 and 405.
+? Make a dropdown menu maybe? 
 """
 
 from flask import Flask, render_template, session, request, redirect, url_for, flash, jsonify
@@ -11,9 +13,6 @@ import requests
 from bson.objectid import ObjectId
 from passlib.hash import sha256_crypt
 
-import time #? This is a test
-import threading #? This is a test
-# from flaskwebgui import FlaskUI #? This is a test
 
 #! Flask app init
 app = Flask(__name__)
@@ -121,11 +120,7 @@ def addResident():
             'laundryType' : request.form.getlist('laundryType'),
             'creationDate' : datetime.now(),
             'givenTime': request.form.get('givenTime')
-
-            #! Insert timer here after calculation w.r.t to the coins and 
-            #! color type.
         }
-        print(request.form.get('givenTime'))
         logs.insert_one(resident)
         flash("Resident saved, timer has been started.","warning")
 
@@ -134,7 +129,7 @@ def addResident():
         checkCustomer = telegramInfo.find_one({"customerName":resident['fullname']})
     
         if checkCustomer:
-            telegramNotificationSend(f"***{resident['fullname']}***, your timer has been started. Current date and time: `{datetime.now()}`",
+            telegramNotificationSend(f"***{resident['fullname']}***, your slut rent time has started. Please use condoms and enjoy your fucking. Current date and time: `{datetime.now()}`",
                                      botToken=checkCustomer['token'], botChatID=checkCustomer['chatID'])
 
         return redirect(url_for('dashboard'))
