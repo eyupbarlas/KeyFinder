@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <!-- <link rel="shortcut icon" href="data:image/svg+xml;base64,PHN2ZyBpZD0iTGF5ZXJfMSIgZW5hYmxlLWJhY2tncm91bmQ9Im5ldyAwIDAgNTEyIDUxMiIgaGVpZ2h0PSI1MTIiIHZpZXdCb3g9IjAgMCA1MTIgNTEyIiB3aWR0aD0iNTEyIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxnPjxwYXRoIGQ9Im0yNTYgMTEwLjMyNmMtOC4yODQgMC0xNS02LjcwOC0xNS0xNC45OTN2LS4wMTVjMC0zNi4wOC0yOS4xODItNjUuMzE4LTY1LjMxNy02NS4zMTgtOC4yODQgMC0xNS4wMDgtNi43MTYtMTUuMDA4LTE1czYuNzA4LTE1IDE0Ljk5Mi0xNWM1Mi42NTUgMCA5NS4zMzMgNDIuNTcyIDk1LjMzMyA5NS4zMTggMCA4LjI4NS02LjcxNiAxNS4wMDgtMTUgMTUuMDA4eiIgZmlsbD0iI2ZmODIzYyIvPjxwYXRoIGQ9Im0yNTYgMTEwLjMyNmMtOC4yODQgMC0xNS02LjcwOC0xNS0xNC45OTN2LS4wMTVjMC01Mi42NDYgNDIuNTg3LTk1LjMxOCA5NS4zMTctOTUuMzE4IDguMjg0IDAgMTUuMDA4IDYuNzE2IDE1LjAwOCAxNXMtNi43MDggMTUtMTQuOTkyIDE1Yy0zNi4wODggMC02NS4zMzMgMjkuMTY5LTY1LjMzMyA2NS4zMTggMCA4LjI4NS02LjcxNiAxNS4wMDgtMTUgMTUuMDA4eiIgZmlsbD0iI2QyNjQzMiIvPjxwYXRoIGQ9Im0zNTIuNCAyMDYuNzMzaC0xOTIuOGMtOC4yODQgMC0xNS02LjcxNi0xNS0xNSAwLTYxLjQyNiA0OS45NzQtMTExLjQgMTExLjQtMTExLjRzMTExLjQgNDkuOTc0IDExMS40IDExMS40YzAgOC4yODUtNi43MTUgMTUtMTUgMTV6IiBmaWxsPSIjZmRiNDQyIi8+PHBhdGggZD0ibTM2Ny40IDE5MS43MzNjMC02MS40MjYtNDkuOTc0LTExMS40LTExMS40LTExMS40djEyNi40aDk2LjRjOC4yODUgMCAxNS02LjcxNSAxNS0xNXoiIGZpbGw9IiNmZjhjMjgiLz48cGF0aCBkPSJtMjU2IDIzMi45NjdjLTYxLjQyNyAwLTExMS40IDQ5Ljk3NC0xMTEuNCAxMTEuNHYuMDAzczAgLjAwMiAwIC4wMDNjMCA0MC4yNjggMTUuNjggNzguMTI0IDQ0LjE1MSAxMDYuNTk1bDU2LjY0MyA1Ni42NGMyLjkyOCAyLjkyOCA2Ljc2NyA0LjM5MiAxMC42MDYgNC4zOTJzNy42NzgtMS40NjQgMTAuNjA2LTQuMzkzbDU2LjY0My01Ni42NGMyOC40NzItMjguNDcxIDQ0LjE1MS02Ni4zMjcgNDQuMTUxLTEwNi42IDAtNjEuNDI3LTQ5Ljk3My0xMTEuNC0xMTEuNC0xMTEuNHoiIGZpbGw9IiNmYWRjNWMiLz48cGF0aCBkPSJtMzIzLjI0OSA0NTAuOTY3YzI4LjQ3Mi0yOC40NzEgNDQuMTUxLTY2LjMyNyA0NC4xNTEtMTA2LjYgMC02MS40MjYtNDkuOTc0LTExMS40LTExMS40LTExMS40djI3OS4wMzNjMy44MzkgMCA3LjY3OC0xLjQ2NCAxMC42MDYtNC4zOTN6IiBmaWxsPSIjZmRiNDQyIi8+PHBhdGggZD0ibTE0NC42IDM0NC4zNjd2LjAwM3MwIC4wMDIgMCAuMDAzYzAgMi4zMjkuMDU4IDQuNjUuMTYzIDYuOTYxaDIyMi40NzVjLjEwNC0yLjMxNC4xNjMtNC42MzYuMTYzLTYuOTY3IDAtNy44OTUtLjgzMS0xNS41OTgtMi40LTIzLjAzM2gtMjE4LjAwMWMtMS41NjkgNy40MzQtMi40IDE1LjEzOC0yLjQgMjMuMDMzeiIgZmlsbD0iI2E1NDYyOCIvPjxwYXRoIGQ9Im0xNjIuNDEgNDE1LjZoMTg3LjE4YzUuMTIyLTkuNTMgOS4xODEtMTkuNTggMTIuMTI1LTMwaC0yMTEuNDMxYzIuOTQ0IDEwLjQyIDcuMDAzIDIwLjQ3IDEyLjEyNiAzMHoiIGZpbGw9IiNhNTQ2MjgiLz48cGF0aCBkPSJtMzY3LjQgMzQ0LjM2N2MwLTcuODk1LS44MzEtMTUuNTk4LTIuNC0yMy4wMzNoLTEwOXYzMGgxMTEuMjM4Yy4xMDQtMi4zMTQuMTYyLTQuNjM2LjE2Mi02Ljk2N3oiIGZpbGw9IiM3ODI4MWUiLz48cGF0aCBkPSJtMzYxLjcxNiAzODUuNmgtMTA1LjcxNnYzMGg5My41OWM1LjEyMi05LjUzIDkuMTgxLTE5LjU4IDEyLjEyNi0zMHoiIGZpbGw9IiM3ODI4MWUiLz48cGF0aCBkPSJtNDE2LjY2NyAxNzYuNzMzaC0zMjEuMzM0Yy01Mi41NjYgMC05NS4zMzMgNDIuNzY3LTk1LjMzMyA5NS4zMzRzNDIuNzY3IDk1LjMzMyA5NS4zNSA5NS4zMzNjODYuNTAzIDAgMTQwLjAyMi01Ny45MjcgMTYwLjY1LTEwNC4zOTMgMjAuNDk4IDQ2LjE3IDczLjk2NiAxMDQuMzkzIDE2MC42NjcgMTA0LjM5MyA1Mi41NjYgMCA5NS4zMzMtNDIuNzY2IDk1LjMzMy05NS4zMzNzLTQyLjc2Ny05NS4zMzQtOTUuMzMzLTk1LjMzNHoiIGZpbGw9IiNmNWY1ZmEiLz48cGF0aCBkPSJtNDE2LjY2NyAzNjcuNGM1Mi41NjYgMCA5NS4zMzMtNDIuNzY2IDk1LjMzMy05NS4zMzNzLTQyLjc2Ny05NS4zMzMtOTUuMzMzLTk1LjMzM2gtMTYwLjY2N3Y4Ni4yNzNjMjAuNDk4IDQ2LjE3IDczLjk2NiAxMDQuMzkzIDE2MC42NjcgMTA0LjM5M3oiIGZpbGw9IiNlMWUxZWIiLz48L2c+PC9zdmc+" type="image/x-icon"> -->
+    <link rel="shortcut icon" href="static/img/key3.png">
+    <title>
+        {% block title %}KeyFinder{% endblock title %}
+    </title>
+    <style>
+        body{background-color: rgb(153, 178, 250);}
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+</head>
+<body>
+    <form method="post">
+        <button type="submit">Test</button>
+    </form>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    {% block script %}{% endblock script %}
+</body>
+</html>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js">
+    // 
+    var data = [
+      {"QTc": "formatedQTc"},
+      {"prolonged": "prolonged"},
+      {"HR": "heartRate"},
+      {"QT": "qtInt"},
+      {"Sex": "selectedSex"}
+    ];
+    
+    $.ajax({
+      type: "POST",
+      url: "/process",
+      data: JSON.stringify(data),
+      contentType: "application/json",
+      dataType: 'json',
+      success: function(result) {
+        console.log("Result:");
+        console.log("result");
+      } 
+    });
+    
+</script>

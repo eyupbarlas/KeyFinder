@@ -1,5 +1,5 @@
 """
-!                                                   ----- KeyFinder -----
+!                                     ----- KeyFinder -----
 
 * Important info: Only two laundary keys are there i.e 205 and 405.
 ? Make a dropdown menu maybe? 
@@ -145,6 +145,19 @@ def allLogs():
         return render_template('allLogs.html', allTimeLogs=allTimeLogs)
         
     return render_template('allLogs.html')
+
+
+#! Testing post data
+@app.route("/process", methods=['GET', 'POST'])
+@login_required
+def process():
+    if request.method == 'POST':
+        data = request.get_json()
+        print(data)
+        return jsonify(data)   
+    
+    return render_template('process.html')
+
 
 #! Logout
 @app.route('/logout')
