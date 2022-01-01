@@ -20,8 +20,6 @@ from passlib.hash import sha256_crypt
 app = Flask(__name__)
 app.secret_key = "Bzzmans_Secret"
 
-#? This is a test
-# ui = FlaskUI(app, width=500, height=500)
 
 #! MongoDB init
 client = pymongo.MongoClient('localhost',27017) #TODO=> Before production stage: Localhost --> MongoDB Atlas Cloud 
@@ -134,7 +132,7 @@ def addResident():
         # if checkCustomer:
         #     telegramNotificationSend(f"***{resident['fullname']}***, your slut rent time has started. Please use condoms and enjoy your fucking. Current date and time: `{datetime.now()}`",
         #                              botToken=checkCustomer['token'], botChatID=checkCustomer['chatID'])
-        print("***Telegram message will is sent.***")
+        print(f"***Telegram message is sent to {resident['fullname']}.***")
 
         return redirect(url_for('dashboard'))
     
@@ -174,7 +172,6 @@ def logout():
 
 if __name__ == "__main__":
     app.run(debug=True)
-    # ui.run() #? This is a test
     # x = sha256_crypt.encrypt("1234")
     # print(x)
     

@@ -14,7 +14,7 @@
         <th scope="col">Type</th>
         <th scope="col">Coins</th>
         <th scope="col">Timer</th>
-        <th scope="col">Status</th> <!--TODO: If timer on the dashboard has been stopped, change the status to "Terminated". -->
+        <th scope="col">Status</th> <!--TODO: If timer on the dashboard has been stopped, change the status "Active" to "Terminated". -->
         <th scope="col">Entry Date</th>
         <th scope="col">Staff Name</th>
       </tr>
@@ -28,7 +28,7 @@
           <td>{{ log['laundryType'] }}</td>
           <td>{{ log['coinCount'] }}</td>
           <td></td>
-          <td></td> <!--TODO: If timer on the dashboard has been stopped, change the status to "Terminated". -->
+          <td></td> <!--TODO: If timer on the dashboard has been stopped, change the status "Active" to "Terminated". -->
           <td>{{ log['creationDate'] }}</td>
           <td>{{ log['loginWhoIs'] }}</td>
         {% endfor %}
