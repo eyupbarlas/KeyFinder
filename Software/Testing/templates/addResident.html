@@ -18,8 +18,16 @@
             </div>
             <div class="mb-3">
                 <label class="form-label">Laundry Room Number</label>
-                <input type="text" id="laundary-number" class="form-control" name="laundryRoomNum" aria-describedby="laundryNumHelp">
-                <div id="laundryNumHelp" class="form-text">Please enter laundry room number.</div>
+                <br>
+                <div class="btn-group">
+                  <button type="button" class="btn btn-danger dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" name="laundryRooms">
+                    Choose
+                  </button>
+                  <ul class="dropdown-menu">
+                    <li value="205"><a class="dropdown-item" href="#">205</a></li>
+                    <li value="405"><a class="dropdown-item" href="#">405</a></li>
+                  </ul>
+                </div>
             </div>
             <div class="mb-3">
                 <label class="form-label">Coin Count</label>

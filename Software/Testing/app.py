@@ -115,7 +115,7 @@ def addResident():
         resident = {
             'fullname' : request.form.get('residentFullName'),
             'roomNum' : request.form.get('residentRoomNum'),
-            'laundryNum' : request.form.get('laundryRoomNum'),
+            'laundryNum' : request.form.get('laundryRooms'), #TODO: Will be a dropdown.
             'coinCount' : request.form.get('coinCount'),
             'laundryType' : request.form.getlist('laundryType'),
             'creationDate' : datetime.now(),
@@ -124,6 +124,9 @@ def addResident():
         }
         logs.insert_one(resident)
         flash("Resident saved, timer has been started.","warning")
+
+        #! Dropdown tests below
+        print(request.form.get('laundryRooms'))
 
         #TODO -> Telegram Notifications testing
         #* After saving a customer, a notification will be sent
