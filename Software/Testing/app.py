@@ -24,8 +24,8 @@ app.secret_key = "Bzzmans_Secret"
 # ui = FlaskUI(app, width=500, height=500)
 
 #! MongoDB init
-client = pymongo.MongoClient('localhost',27017)
-db = client.KeyFinderTest1
+client = pymongo.MongoClient('localhost',27017) #TODO=> Before production stage: Localhost --> MongoDB Atlas Cloud 
+db = client.KeyFinderTest1 # change collection name before launch
 users = db.users
 logs = db.logs
 telegramInfo = db.telegramInfo
@@ -41,7 +41,7 @@ def login_required(f):
             return redirect(url_for("login"))
     return decorated_function
 
-#! Timeout
+#! Timeout (15 mins)
 @app.before_request
 def make_session_permanent():
     session.permanent = True
@@ -100,7 +100,7 @@ def login():
 def dashboard():
     last2Logs = []
     
-    for i in logs.find().sort([('$natural', -1)]).limit(2):
+    for i in logs.find().sort([('$natural', -1)]).limit(2):  # Query for latest 2 records
         last2Logs.append(i)
 
     if last2Logs:
