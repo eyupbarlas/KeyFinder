@@ -3,6 +3,8 @@
 
 * Important info: Only two laundary keys are there i.e 205 and 405.
 ? Make a dropdown menu maybe? 
+* Google Forms link for Telegram Info: https://forms.gle/kB7yUi6nb6rmpYpN9
+    ! Don't forget the change the link in Terms & Conditions before launch.(Update terms and Google Form)
 """
 
 from flask import Flask, render_template, session, request, redirect, url_for, flash, jsonify
