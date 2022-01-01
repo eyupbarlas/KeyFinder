@@ -96,13 +96,13 @@ def login():
 @app.route("/dashboard")
 @login_required
 def dashboard():
-    last4Logs = []
+    last2Logs = []
     
-    for i in logs.find().sort([('$natural', -1)]).limit(4):
-        last4Logs.append(i)
+    for i in logs.find().sort([('$natural', -1)]).limit(2):
+        last2Logs.append(i)
 
-    if last4Logs:
-        return render_template('dashboard.html', last4Logs=last4Logs)
+    if last2Logs:
+        return render_template('dashboard.html', last2Logs=last2Logs)
     else:
         flash("Database connection error.", "danger")
         return render_template('dashboard.html')
@@ -119,7 +119,8 @@ def addResident():
             'coinCount' : request.form.get('coinCount'),
             'laundryType' : request.form.getlist('laundryType'),
             'creationDate' : datetime.now(),
-            'givenTime': request.form.get('givenTime')
+            'givenTime': request.form.get('givenTime'),
+            'loginWhoIs' : session['username']
         }
         logs.insert_one(resident)
         flash("Resident saved, timer has been started.","warning")
@@ -128,9 +129,10 @@ def addResident():
         #* After saving a customer, a notification will be sent
         checkCustomer = telegramInfo.find_one({"customerName":resident['fullname']})
     
-        if checkCustomer:
-            telegramNotificationSend(f"***{resident['fullname']}***, your slut rent time has started. Please use condoms and enjoy your fucking. Current date and time: `{datetime.now()}`",
-                                     botToken=checkCustomer['token'], botChatID=checkCustomer['chatID'])
+        # if checkCustomer:
+        #     telegramNotificationSend(f"***{resident['fullname']}***, your slut rent time has started. Please use condoms and enjoy your fucking. Current date and time: `{datetime.now()}`",
+        #                              botToken=checkCustomer['token'], botChatID=checkCustomer['chatID'])
+        print("***Telegram message will is sent.***")
 
         return redirect(url_for('dashboard'))
     
