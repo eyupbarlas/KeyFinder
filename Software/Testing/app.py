@@ -134,9 +134,14 @@ def addResident():
         checkCustomer = telegramInfo.find_one({"customerName":resident['fullname']})
     
         if checkCustomer:
+<<<<<<< Updated upstream
             telegramNotificationSend(f"***{resident['fullname']}***, your laundry timer has been started. Current date and time: `{datetime.now()}`",
                                      botToken=checkCustomer['token'], botChatID=checkCustomer['chatID'])
 
+=======
+            telegramNotificationSend(f"***{resident['fullname']}***, your laundry timer has started. Current date and time: `{datetime.now()}`",
+                                     botToken=checkCustomer['token'], botChatID=checkCustomer['chatID'])
+>>>>>>> Stashed changes
         print(f"***Telegram message is sent to {resident['fullname']}.***")
 
         return redirect(url_for('dashboard'))
