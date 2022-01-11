@@ -13,8 +13,7 @@
             </div>
             <div class="mb-3">
                 <label class="form-label">Room Number</label>
-                <input type="text" class="form-control" name="residentRoomNum" aria-describedby="roomNumHelp">
-                <div id="roomNumHelp" class="form-text">Please enter resident's room number.</div>
+                <input type="text" id="room-number" class="form-control" name="residentRoomNum" aria-describedby="roomNumHelp">
             </div>
             <div class="mb-3">
                 <label class="form-label">Laundry Room Number</label>
@@ -45,4 +44,84 @@
     </form>
 </div>
 
+<script>
+    // All time is in minutes
+    const coinCount = document.getElementById('coin-count');
+    const checkedWhite = document.getElementById('checkBox-white');
+    const checkedColor = document.getElementById('checkBox-colored');
+    const calcTime = document.getElementById('calc-time');
+    const timeGiven = document.getElementById('time-given');
+
+    //! Form control elements
+    const residentName = document.getElementById('resident-name');
+    const submitBtn = document.getElementById('submit-btn');
+    const roomNumber = document.getElementById('room-number');
+    const laundaryNumber = document.getElementById('laundary-number');
+    const dropDownBtn = document.getElementById('')
+    
+    let whiteTime = 65, coloredTime = 45;
+    let dryTime = 45;
+    let transferTime = 5;    
+    let totalTime = 0;
+
+    //* Check the calculated time on button click
+    calcTime.addEventListener('click', ()=> { 
+        if (checkedWhite.checked && checkedColor.checked)
+        {
+            totalTime = whiteTime + coloredTime + transferTime + (dryTime*2);
+        }
+        else if (checkedColor.checked && !checkedWhite.checked)
+        {
+            totalTime = coloredTime + transferTime + dryTime;
+        }
+        else if (checkedWhite.checked && !checkedColor.checked)
+        {
+            totalTime = whiteTime + transferTime + dryTime;
+        }
+
+        if (!checkedWhite.checked && !checkedColor.checked)
+        {
+            alert("Please select one of the check boxes");
+        }
+
+        timeGiven.value = totalTime;
+    });
+
+    // Form control is done even the final submit button is clicked
+    submitBtn.addEventListener('click', (e)=>
+    {
+        let residentNameStr = residentName.value;
+        let strippedStr = residentNameStr.trim(); 
+
+        var isRoomOnlyNumber = /^\d+$/.test(roomNumber.value);
+        var isLaundaryOnlyNumber = /^\d+$/.test(laundaryNumber.value);
+        var isCoinCountOnlyNumber = /^\d+$/.test(coinCount.value);
+ 
+        if (!isRoomOnlyNumber)
+        {
+            alert("Please put in correct Room number");
+            e.preventDefault();
+        }  
+
+        if(!isLaundaryOnlyNumber)
+        {
+            alert("Please put in correct Laundary Number value");
+            e.preventDefault();
+        }
+
+        if(!isCoinCountOnlyNumber)
+        {
+            alert("Coin count should only be a numbers");
+            e.preventDefault();
+        }
+
+        if (timeGiven.value == 0)
+        {
+            alert("Please calculate the time correctly");
+            e.preventDefault();
+        }
+    });
+
+    
+</script>
 {% endblock body %}
