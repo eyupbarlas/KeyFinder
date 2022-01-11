@@ -152,16 +152,6 @@ def allLogs():
     return render_template('allLogs.html')
 
 
-#! Testing post data
-@app.route("/process", methods=['GET', 'POST'])
-@login_required
-def process():
-    if request.method == 'POST':
-        data = request.get_json()
-        print(data)
-        return jsonify(data)   
-    
-    return render_template('process.html')
 
 
 #! Logout
@@ -172,7 +162,7 @@ def logout():
     flash("Logout successful.","success")
     return redirect(url_for("index"))
 
-
+#! Testing AJAX FUNCTIONS
 @app.route('/json')
 def json():
     return render_template('process.html')
@@ -181,11 +171,8 @@ def json():
 @app.route("/process")
 @login_required
 def process():
-    # if request.method == 'POST':
-    #     data = request.get_json()
-    #     print(data)
-    #     return jsonify(data)      
-    
+    print("Hello")
+    #! PUT THE TELEGRAM MESSAGE BOT HERE
     return ("nothing")
 
 if __name__ == "__main__":
