@@ -173,6 +173,21 @@ def logout():
     return redirect(url_for("index"))
 
 
+@app.route('/json')
+def json():
+    return render_template('process.html')
+
+    
+@app.route("/process")
+@login_required
+def process():
+    # if request.method == 'POST':
+    #     data = request.get_json()
+    #     print(data)
+    #     return jsonify(data)      
+    
+    return ("nothing")
+
 if __name__ == "__main__":
     app.run(debug=True)
     # x = sha256_crypt.encrypt("1234")
