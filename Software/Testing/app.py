@@ -115,7 +115,7 @@ def addResident():
         resident = {
             'fullname' : request.form.get('residentFullName'),
             'roomNum' : request.form.get('residentRoomNum'),
-            'laundryNum' : request.form.get('laundryRooms'), #TODO: Will be a dropdown.
+            'laundryNum' : request.form.get('laundryRooms'), 
             'coinCount' : request.form.get('coinCount'),
             'laundryType' : request.form.getlist('laundryType'),
             'creationDate' : datetime.now(),
@@ -127,14 +127,6 @@ def addResident():
 
         #! Dropdown tests below
         print(request.form.get('laundryRooms'))
-
-        # checkCustomer = telegramInfo.find_one({"customerName":resident['fullname']})
-    
-        # if checkCustomer:
-        #     telegramNotificationSend(f"***{resident['fullname']}***, your laundry timer has been started. Current date and time: `{datetime.now()}`",
-        #                              botToken=checkCustomer['token'], botChatID=checkCustomer['chatID'])
-
-        # print(f"***Telegram message is sent to {resident['fullname']}.***")
 
         return redirect(url_for('dashboard'))
     
@@ -162,77 +154,81 @@ def logout():
 @app.route("/startMessage")
 @login_required
 def startMessage():
-    print("startMessage() works.")
- 
-    testdata = logs.find_one(sort=[('$natural', -1)])
-    currentUserName = testdata['fullname'] 
-    print(currentUserName)
+    last2logs = []
+    for i in logs.find().sort([('$natural', -1)]).limit(2):
+        last2logs.append(i)
+
+    currentUserName = last2logs[0]['fullname']
 
     telegramNotificationSend(f"***@{currentUserName}***, your timer has been started. Current date and time: `{datetime.now()}`")
 
-    return ("nothing")
+    return ("startMessage")
 
 @app.route("/overtimeMessage")
 @login_required
 def overtimeMessage():
-    print("overtimeMessage() works.")
-    testdata = logs.find_one(sort=[('$natural', -1)])
-    currentUserName = testdata['fullname'] 
-    print(currentUserName)
+    last2logs = []
+    for i in logs.find().sort([('$natural', -1)]).limit(2):
+        last2logs.append(i)
+
+    currentUserName = last2logs[0]['fullname']
 
     telegramNotificationSend(f"***@{currentUserName}***, your timer has been finished and you are on overtime. Current date and time: `{datetime.now()}`")
 
-    return ("nothing")
+    return ("overtimeMessage")
 
 @app.route("/stopMessage")
 @login_required
 def stopMessage():
-    print("stopMessage() works.")
-    testdata = logs.find_one(sort=[('$natural', -1)])
-    currentUserName = testdata['fullname'] 
-    print(currentUserName)
+    last2logs = []
+    for i in logs.find().sort([('$natural', -1)]).limit(2):
+        last2logs.append(i)
+
+    currentUserName = last2logs[0]['fullname']
 
     telegramNotificationSend(f"***@{currentUserName}***, your timer has been stopped. Current date and time: `{datetime.now()}`")
 
-    return ("nothing")
+    return ("stopMessage")
 
 #! Message routing for second button
 @app.route("/startMessageTwo")
 @login_required
 def startMessageTwo():
-    print("startMessageTwo() works.")
- 
-    testdata = logs.find_one(sort=[('$natural', -1)])
-    currentUserName = testdata['fullname'] 
-    print(currentUserName)
+    last2logs = []
+    for i in logs.find().sort([('$natural', -1)]).limit(2):
+        last2logs.append(i)
+
+    currentUserName = last2logs[1]['fullname']
 
     telegramNotificationSend(f"***@{currentUserName}***, your timer has been started. Current date and time: `{datetime.now()}`")
 
-    return ("nothing")
+    return ("startMessageTwo")
 
 @app.route("/overtimeMessageTwo")
 @login_required
 def overtimeMessageTwo():
-    print("overtimeMessageTwo() works.")
-    testdata = logs.find_one(sort=[('$natural', -1)])
-    currentUserName = testdata['fullname'] 
-    print(currentUserName)
+    last2logs = []
+    for i in logs.find().sort([('$natural', -1)]).limit(2):
+        last2logs.append(i)
+
+    currentUserName = last2logs[1]['fullname']
 
     telegramNotificationSend(f"***@{currentUserName}***, your timer has been finished and you are on overtime. Current date and time: `{datetime.now()}`")
 
-    return ("nothing")
+    return ("overtimeMessageTwo")
 
 @app.route("/stopMessageTwo")
 @login_required
-def stopMessageTwo():
-    print("stopMessageTwo() works.")
-    testdata = logs.find_one(sort=[('$natural', -1)])
-    currentUserName = testdata['fullname'] 
-    print(currentUserName)
+def stopMessageTwo(): 
+    last2logs = []
+    for i in logs.find().sort([('$natural', -1)]).limit(2):
+        last2logs.append(i)
+
+    currentUserName = last2logs[1]['fullname']
 
     telegramNotificationSend(f"***@{currentUserName}***, your timer has been stopped. Current date and time: `{datetime.now()}`")
 
-    return ("nothing")
+    return ("stopMessageTwo")
 
 
 if __name__ == "__main__":
