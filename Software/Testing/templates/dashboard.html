@@ -1,17 +1,19 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
 <script>
-  $(function() {
-    $('a#test').on('click', (e) => {
-      e.preventDefault()
-      $.getJSON('/startMessage', () => {
-          console.log("This is working with the button click");
+//   $(function() {
+//     $('a#test').on('click', (e) => {
+//       e.preventDefault()
+//       $.getJSON('/startMessage', () => {
+//           console.log("This is working with the button click");
           
-      });
-      return false;
-    });
-});  
+//       });
+//       return false;
+//     });
+// });  
 </script>
+
+
 {% extends "layout.html" %}
 {% block title %}Dashboard{% endblock title %}
 {% block body %}
@@ -50,7 +52,7 @@
           <td>            
               <div class="form-check form-switch">
                 <form action="post">
-                  <a href=# id=test><button type="button" class="btn btn-primary start">Start</button></a> 
+                  <button type="button" class="btn btn-primary start">Start</button>
                 </form>
               </div>
           </td>
@@ -111,28 +113,60 @@
           clearInterval(countDown);
           stopBtns[i].disabled = true;
 
-          $.getJSON('/stopMessage', () => {
-            console.log("This is working with the button click");
-          });
+          if (i == 0)
+          {            
+            $.getJSON('/stopMessage', () => {
+              console.log("This is working with the button click");
+            });
+          }
+          else if (i == 1)
+          {
+            $.getJSON('/stopMessageTwo', () => {
+              console.log("This is working with the button click");
+            });
+          }
       });
 
       startBtns[i].addEventListener('click', () => {
         startBtns[i].disabled = true;   
         stopBtns[i].disabled = false;
-        pauseBtns[i].disabled = false;       
+        pauseBtns[i].disabled = false;    
+
+        if (i == 0)
+        {          
+          $.getJSON('/startMessage', () => {
+            console.log("This is working with the button click");          
+          });
+        }
+        else if(i == 1)
+        {
+          $.getJSON('/startMessageTwo', () => {
+            console.log("This is working with the button click");          
+          });
+        }
+        
+        
 
         countDown = setInterval(() => {           
           if (totalTime == 0)
           {
-            alert("Time finished");
             totalTime--;           
           }
           else if(totalTime % 10 == -0)
           {
-              $.getJSON('/overtimeMessage', () => {
+              if (i == 0)
+              {     
+                $.getJSON('/overtimeMessage', () => {
                   console.log("This is working with the button click");
-                  
-              });
+                });
+              }
+              else if (i == 1)
+              {
+                $.getJSON('/overtimeMessageTwo', () => {
+                  console.log("This is working with the button click");
+                });
+              }
+             
               totalTime--; 
           }
           else

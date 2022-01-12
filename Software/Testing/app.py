@@ -196,6 +196,45 @@ def stopMessage():
 
     return ("nothing")
 
+#! Message routing for second button
+@app.route("/startMessageTwo")
+@login_required
+def startMessageTwo():
+    print("startMessageTwo() works.")
+ 
+    testdata = logs.find_one(sort=[('$natural', -1)])
+    currentUserName = testdata['fullname'] 
+    print(currentUserName)
+
+    telegramNotificationSend(f"***@{currentUserName}***, your timer has been started. Current date and time: `{datetime.now()}`")
+
+    return ("nothing")
+
+@app.route("/overtimeMessageTwo")
+@login_required
+def overtimeMessageTwo():
+    print("overtimeMessageTwo() works.")
+    testdata = logs.find_one(sort=[('$natural', -1)])
+    currentUserName = testdata['fullname'] 
+    print(currentUserName)
+
+    telegramNotificationSend(f"***@{currentUserName}***, your timer has been finished and you are on overtime. Current date and time: `{datetime.now()}`")
+
+    return ("nothing")
+
+@app.route("/stopMessageTwo")
+@login_required
+def stopMessageTwo():
+    print("stopMessageTwo() works.")
+    testdata = logs.find_one(sort=[('$natural', -1)])
+    currentUserName = testdata['fullname'] 
+    print(currentUserName)
+
+    telegramNotificationSend(f"***@{currentUserName}***, your timer has been stopped. Current date and time: `{datetime.now()}`")
+
+    return ("nothing")
+
+
 if __name__ == "__main__":
     app.run(debug=True)
     # x = sha256_crypt.encrypt("1234")
