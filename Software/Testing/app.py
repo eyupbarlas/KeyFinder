@@ -1,26 +1,22 @@
 """
 !                                     ----- KeyFinder -----
 
-* Important info: Only two laundry keys are there i.e 205 and 405.
-? Make a dropdown menu maybe? 
 * Google Forms link for Telegram Info: https://forms.gle/kB7yUi6nb6rmpYpN9
     ! Don't forget the change the link in Terms & Conditions before launch.(Update terms and Google Form)
     ! No need to get people's chatID's and tokens. Just a group link.
+        ? ChatID for group link gets updated everytime a user joins --> Careful.
 """
 
-from flask import Flask, render_template, session, request, redirect, url_for, flash, jsonify
+from flask import Flask, render_template, session, request, redirect, url_for, flash
 from functools import wraps
-from datetime import datetime, timedelta
+from datetime import datetime
 import pymongo
-import requests
-from bson.objectid import ObjectId
 from passlib.hash import sha256_crypt
-from config import BOT_TOKEN, BOT_CHATID
+from utils import *
 
 #! Flask app init
 app = Flask(__name__)
 app.secret_key = "Bzzmans_Secret"
-
 
 #! MongoDB init
 client = pymongo.MongoClient('localhost',27017) #TODO=> Before production stage: Localhost --> MongoDB Atlas Cloud 
@@ -39,21 +35,6 @@ def login_required(f):
             flash("You have to login first. Unauthorised action.","danger")
             return redirect(url_for("login"))
     return decorated_function
-
-#! Timeout (15 mins)
-@app.before_request
-def make_session_permanent():
-    session.permanent = True
-    app.permanent_session_lifetime = timedelta(minutes=15)
-
-#! Telegram Notification
-def telegramNotificationSend(botMessage):
-    bot_token = BOT_TOKEN  
-    bot_chatID = BOT_CHATID
-    sendMessage = 'https://api.telegram.org/bot' + bot_token + '/sendMessage?chat_id=' + bot_chatID + \
-                '&parse_mode=Markdown&text=' + botMessage
-
-    requests.get(sendMessage)
 
 # ========================================================================================
 
@@ -125,9 +106,6 @@ def addResident():
         logs.insert_one(resident)
         flash("Resident saved, timer has been started.","warning")
 
-        #! Dropdown tests below
-        print(request.form.get('laundryRooms'))
-
         return redirect(url_for('dashboard'))
     
     return render_template('addResident.html')
@@ -142,15 +120,7 @@ def allLogs():
         
     return render_template('allLogs.html')
 
-#! Logout
-@app.route('/logout')
-@login_required
-def logout():
-    session.clear()
-    flash("Logout successful.","success")
-    return redirect(url_for("index"))
-
-#! Routing 
+#! Start Message for 1. Resident  
 @app.route("/startMessage")
 @login_required
 def startMessage():
@@ -164,6 +134,7 @@ def startMessage():
 
     return ("startMessage")
 
+#! Overtime Message for 1. Resident  
 @app.route("/overtimeMessage")
 @login_required
 def overtimeMessage():
@@ -177,6 +148,7 @@ def overtimeMessage():
 
     return ("overtimeMessage")
 
+#! Stop Message for 1. Resident  
 @app.route("/stopMessage")
 @login_required
 def stopMessage():
@@ -190,7 +162,7 @@ def stopMessage():
 
     return ("stopMessage")
 
-#! Message routing for second button
+#! Start Message for 2. Resident  
 @app.route("/startMessageTwo")
 @login_required
 def startMessageTwo():
@@ -204,6 +176,7 @@ def startMessageTwo():
 
     return ("startMessageTwo")
 
+#! Overtime Message for 2. Resident  
 @app.route("/overtimeMessageTwo")
 @login_required
 def overtimeMessageTwo():
@@ -217,6 +190,7 @@ def overtimeMessageTwo():
 
     return ("overtimeMessageTwo")
 
+#! Stop Message for 2. Resident  
 @app.route("/stopMessageTwo")
 @login_required
 def stopMessageTwo(): 
@@ -230,10 +204,15 @@ def stopMessageTwo():
 
     return ("stopMessageTwo")
 
+#! Logout
+@app.route('/logout')
+@login_required
+def logout():
+    session.clear()
+    flash("Logout successful.","success")
+    return redirect(url_for("index"))
 
+
+#! Flask run
 if __name__ == "__main__":
     app.run(debug=True)
-    # x = sha256_crypt.encrypt("1234")
-    # print(x)
-    
-    # telegramNotificationSend("Wazzup", botToken="5039844581:AAEJ3ZgnE3bFcljj_qduAGCCVhRC27I4k3A", botChatID="-637535626")
