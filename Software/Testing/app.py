@@ -1,10 +1,11 @@
 """
 !                                     ----- KeyFinder -----
 
-* Important info: Only two laundary keys are there i.e 205 and 405.
+* Important info: Only two laundry keys are there i.e 205 and 405.
 ? Make a dropdown menu maybe? 
 * Google Forms link for Telegram Info: https://forms.gle/kB7yUi6nb6rmpYpN9
     ! Don't forget the change the link in Terms & Conditions before launch.(Update terms and Google Form)
+    ! No need to get people's chatID's and tokens. Just a group link.
 """
 
 from flask import Flask, render_template, session, request, redirect, url_for, flash, jsonify
@@ -132,10 +133,11 @@ def addResident():
         #* After saving a customer, a notification will be sent
         checkCustomer = telegramInfo.find_one({"customerName":resident['fullname']})
     
-        # if checkCustomer:
-        #     telegramNotificationSend(f"***{resident['fullname']}***, your slut rent time has started. Please use condoms and enjoy your fucking. Current date and time: `{datetime.now()}`",
-        #                              botToken=checkCustomer['token'], botChatID=checkCustomer['chatID'])
-        #print(f"***Telegram message is sent to {resident['fullname']}.***")
+        if checkCustomer:
+            telegramNotificationSend(f"***{resident['fullname']}***, your laundry timer has been started. Current date and time: `{datetime.now()}`",
+                                     botToken=checkCustomer['token'], botChatID=checkCustomer['chatID'])
+
+        print(f"***Telegram message is sent to {resident['fullname']}.***")
 
         return redirect(url_for('dashboard'))
     
@@ -151,9 +153,6 @@ def allLogs():
         
     return render_template('allLogs.html')
 
-
-
-
 #! Logout
 @app.route('/logout')
 @login_required
@@ -162,10 +161,9 @@ def logout():
     flash("Logout successful.","success")
     return redirect(url_for("index"))
 
-#! Testing AJAX FUNCTIONS
-@app.route('/json')
-def json():
-    return render_template('process.html')
+# @app.route('/json')
+# def json():
+#     return render_template('process.html')
 
     
 @app.route("/startMessage")
@@ -180,4 +178,4 @@ if __name__ == "__main__":
     # x = sha256_crypt.encrypt("1234")
     # print(x)
     
-    # telegramNotificationSend("Wazzup")
+    # telegramNotificationSend("Wazzup", botToken="5039844581:AAEJ3ZgnE3bFcljj_qduAGCCVhRC27I4k3A", botChatID="-637535626")
