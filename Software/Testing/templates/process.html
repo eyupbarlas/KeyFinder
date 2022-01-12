@@ -2,19 +2,10 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
 <script>
-    // 
-    var data = [
-      {"QTc": "formatedQTc"},
-      {"prolonged": "prolonged"},
-      {"HR": "heartRate"},
-      {"QT": "qtInt"},
-      {"Sex": "selectedSex"}
-    ];
-
     $(function() {
           $('a#test').on('click', (e) => {
             e.preventDefault()
-            $.getJSON('/process', () => {
+            $.getJSON('/startMessage', () => {
                 console.log("This is working with the button click");
                
             });
@@ -43,8 +34,9 @@
 </head>
 <body>
 
-    <form>
+    <form method="get">
         <a href=# id=test><button class='btn btn-default'>Test</button></a>
+        <!-- <button class='test btn btn-default'>Test</button> -->
 
     </form>
 

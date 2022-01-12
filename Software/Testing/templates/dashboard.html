@@ -1,3 +1,19 @@
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+<script>
+    $(function() {
+          $('a#test').on('click', (e) => {
+            e.preventDefault()
+            $.getJSON('/startMessage', () => {
+                console.log("This is working with the button click");
+                
+            });
+            return false;
+          });
+    });
+    
+</script>
+
 {% extends "layout.html" %}
 {% block title %}Dashboard{% endblock title %}
 {% block body %}
@@ -36,7 +52,7 @@
           <td>            
               <div class="form-check form-switch">
                 <form action="post">
-                  <button type="button" class="btn btn-primary start">Start</button> 
+                  <a href=# id=test><button type="button" class="btn btn-primary start">Start</button></a> 
                 </form>
               </div>
           </td>
@@ -81,7 +97,7 @@
 
 
   for (let i = 0; i < startBtnLength; i++) {
-      let totalTime = timerData[i];
+      let totalTime = 2; //timerData[i];
       let count = 0;
       let countDown;  
       
@@ -98,16 +114,23 @@
       });
 
       startBtns[i].addEventListener('click', () => {
-        startBtns[i].disabled = true;          
-  
+        startBtns[i].disabled = true;   
+        stopBtns[i].disabled = false;
+        pauseBtns[i].disabled = false;       
+
         countDown = setInterval(() => {           
-          if (totalTime <= 0)
+          if (totalTime == 0)
           {
             alert("Time finished");
-            clearInterval(countDown);  
-            totalTime = timerData[i];    
-            timer[i].innerHTML = totalTime;    
-            startBtns[i].disabled = false;              
+            totalTime--;           
+          }
+          else if(totalTime % 10 == -0)
+          {
+              $.getJSON('/startMessage', () => {
+                  console.log("This is working with the button click");
+                  
+              });
+              totalTime--; 
           }
           else
           {

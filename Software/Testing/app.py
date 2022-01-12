@@ -135,7 +135,7 @@ def addResident():
         # if checkCustomer:
         #     telegramNotificationSend(f"***{resident['fullname']}***, your slut rent time has started. Please use condoms and enjoy your fucking. Current date and time: `{datetime.now()}`",
         #                              botToken=checkCustomer['token'], botChatID=checkCustomer['chatID'])
-        print(f"***Telegram message is sent to {resident['fullname']}.***")
+        #print(f"***Telegram message is sent to {resident['fullname']}.***")
 
         return redirect(url_for('dashboard'))
     
@@ -168,9 +168,9 @@ def json():
     return render_template('process.html')
 
     
-@app.route("/process")
+@app.route("/startMessage")
 @login_required
-def process():
+def startMessage():
     print("Hello")
     #! PUT THE TELEGRAM MESSAGE BOT HERE
     return ("nothing")
