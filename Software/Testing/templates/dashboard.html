@@ -1,19 +1,3 @@
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-
-<script>
-    $(function() {
-          $('a#test').on('click', (e) => {
-            e.preventDefault()
-            $.getJSON('/startMessage', () => {
-                console.log("This is working with the button click");
-                
-            });
-            return false;
-          });
-    });
-    
-</script>
-
 {% extends "layout.html" %}
 {% block title %}Dashboard{% endblock title %}
 {% block body %}
@@ -77,6 +61,10 @@
 <div class="alert alert-danger">There are no logs.</div>
 {% endif %}
 
+<!-- JAVASCRIPT START  -->
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
 <script type="application/javascript">
   // JAVASCRIPT START
   var timer = document.querySelectorAll('.timer');
@@ -95,9 +83,8 @@
   }
   getTimerData();
 
-
   for (let i = 0; i < startBtnLength; i++) {
-      let totalTime = 2; //timerData[i];
+      let totalTime = 5; //timerData[i];
       let count = 0;
       let countDown;  
       
@@ -111,6 +98,10 @@
           pauseBtns[i].disabled = true;
           clearInterval(countDown);
           stopBtns[i].disabled = true;
+
+          $.getJSON('/stopMessage', () => {
+            console.log("This is working with the button click");
+          });
       });
 
       startBtns[i].addEventListener('click', () => {
@@ -126,7 +117,7 @@
           }
           else if(totalTime % 10 == -0)
           {
-              $.getJSON('/startMessage', () => {
+              $.getJSON('/overtimeMessage', () => {
                   console.log("This is working with the button click");
                   
               });
@@ -140,8 +131,21 @@
       }, 1000);
     })
   }  
-  //! JAVASCRIPT END 
-</script>
 
+  // Start message button py function call,
+
+  $(() => {
+          $('a#test').on('click', (e) => {
+            e.preventDefault()
+            $.getJSON('/startMessage', () => {
+                console.log("This is working with the button click");
+                
+            });
+            return false;
+          });
+    });
+
+</script>
+<!-- JAVASCRIPT END  -->
 
 {% endblock body %}

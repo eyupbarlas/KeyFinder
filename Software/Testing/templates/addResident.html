@@ -1,6 +1,3 @@
-
-
-
 {% extends "layout.html" %}
 {% block title %}Add Resident{% endblock title %}
 {% block body %}
@@ -22,15 +19,10 @@
             <div class="mb-3">
                 <label class="form-label">Laundry Room Number</label>
                 <br>
-                <div class="btn-group">
-                  <button type="button" class="btn btn-danger dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" name="laundryRooms">
-                    Choose
-                  </button>
-                  <ul class="dropdown-menu">
-                    <li value="205"><a class="dropdown-item" href="#">205</a></li>
-                    <li value="405"><a class="dropdown-item" href="#">405</a></li>
-                  </ul>
-                </div>
+                <select id='laundary-select' name="laundryRooms" class="form-select form-select-sm " aria-label=".form-select-sm example">
+                    <option value="205">205</option>
+                    <option value="405">405</option>
+                </select>
             </div>
             <div class="mb-3">
                 <label class="form-label">Coin Count</label>
@@ -75,6 +67,7 @@
     const submitBtn = document.getElementById('submit-btn');
     const roomNumber = document.getElementById('room-number');
     const laundaryNumber = document.getElementById('laundary-number');
+    const laundarySelected = document.getElementById('laundary-select');
     
     let whiteTime = 65, coloredTime = 45;
     let dryTime = 45;
@@ -83,17 +76,22 @@
 
     //* Check the calculated time on button click
     calcTime.addEventListener('click', ()=> { 
+        coinValue = coinCount.value/2;
+
         if (checkedWhite.checked && checkedColor.checked)
         {
             totalTime = whiteTime + coloredTime + transferTime + (dryTime*2);
+            totalTime = totalTime * coinValue;
         }
         else if (checkedColor.checked && !checkedWhite.checked)
         {
             totalTime = coloredTime + transferTime + dryTime;
+            totalTime = totalTime * coinValue;
         }
         else if (checkedWhite.checked && !checkedColor.checked)
         {
             totalTime = whiteTime + transferTime + dryTime;
+            totalTime = totalTime * coinValue;
         }
 
         if (!checkedWhite.checked && !checkedColor.checked)

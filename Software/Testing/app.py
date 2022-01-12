@@ -158,21 +158,40 @@ def logout():
     flash("Logout successful.","success")
     return redirect(url_for("index"))
 
-# @app.route('/json')
-# def json():
-#     return render_template('process.html')
-
-    
+#! Routing 
 @app.route("/startMessage")
 @login_required
 def startMessage():
     print("startMessage() works.")
-    #! PUT THE TELEGRAM MESSAGE BOT HERE
     testdata = logs.find_one(sort=[('$natural', -1)])
     currentUserName = testdata['fullname'] 
     print(currentUserName)
 
     telegramNotificationSend(f"***@{currentUserName}***, your timer has been started. Current date and time: `{datetime.now()}`")
+
+    return ("nothing")
+
+@app.route("/overtimeMessage")
+@login_required
+def overtimeMessage():
+    print("overtimeMessage() works.")
+    testdata = logs.find_one(sort=[('$natural', -1)])
+    currentUserName = testdata['fullname'] 
+    print(currentUserName)
+
+    telegramNotificationSend(f"***@{currentUserName}***, your timer has been finished and you are on overtime. Current date and time: `{datetime.now()}`")
+
+    return ("nothing")
+
+@app.route("/stopMessage")
+@login_required
+def stopMessage():
+    print("stopMessage() works.")
+    testdata = logs.find_one(sort=[('$natural', -1)])
+    currentUserName = testdata['fullname'] 
+    print(currentUserName)
+
+    telegramNotificationSend(f"***@{currentUserName}***, your timer has been stopped. Current date and time: `{datetime.now()}`")
 
     return ("nothing")
 
