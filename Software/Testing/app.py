@@ -163,6 +163,7 @@ def logout():
 @login_required
 def startMessage():
     print("startMessage() works.")
+ 
     testdata = logs.find_one(sort=[('$natural', -1)])
     currentUserName = testdata['fullname'] 
     print(currentUserName)
