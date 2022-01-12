@@ -15,7 +15,7 @@ import pymongo
 import requests
 from bson.objectid import ObjectId
 from passlib.hash import sha256_crypt
-
+from config import BOT_TOKEN, BOT_CHATID
 
 #! Flask app init
 app = Flask(__name__)
@@ -47,10 +47,9 @@ def make_session_permanent():
     app.permanent_session_lifetime = timedelta(minutes=15)
 
 #! Telegram Notification
-#TODO=> Bot token and ChatID has to come from database
-def telegramNotificationSend(botMessage, botToken, botChatID):
-    bot_token = botToken
-    bot_chatID = botChatID
+def telegramNotificationSend(botMessage):
+    bot_token = BOT_TOKEN  
+    bot_chatID = BOT_CHATID
     sendMessage = 'https://api.telegram.org/bot' + bot_token + '/sendMessage?chat_id=' + bot_chatID + \
                 '&parse_mode=Markdown&text=' + botMessage
 
@@ -129,15 +128,13 @@ def addResident():
         #! Dropdown tests below
         print(request.form.get('laundryRooms'))
 
-        #TODO -> Telegram Notifications testing
-        #* After saving a customer, a notification will be sent
-        checkCustomer = telegramInfo.find_one({"customerName":resident['fullname']})
+        # checkCustomer = telegramInfo.find_one({"customerName":resident['fullname']})
     
-        if checkCustomer:
-            telegramNotificationSend(f"***{resident['fullname']}***, your laundry timer has been started. Current date and time: `{datetime.now()}`",
-                                     botToken=checkCustomer['token'], botChatID=checkCustomer['chatID'])
+        # if checkCustomer:
+        #     telegramNotificationSend(f"***{resident['fullname']}***, your laundry timer has been started. Current date and time: `{datetime.now()}`",
+        #                              botToken=checkCustomer['token'], botChatID=checkCustomer['chatID'])
 
-        print(f"***Telegram message is sent to {resident['fullname']}.***")
+        # print(f"***Telegram message is sent to {resident['fullname']}.***")
 
         return redirect(url_for('dashboard'))
     
@@ -169,8 +166,14 @@ def logout():
 @app.route("/startMessage")
 @login_required
 def startMessage():
-    print("Hello")
+    print("startMessage() works.")
     #! PUT THE TELEGRAM MESSAGE BOT HERE
+    testdata = logs.find_one(sort=[('$natural', -1)])
+    currentUserName = testdata['fullname'] 
+    print(currentUserName)
+
+    telegramNotificationSend(f"***@{currentUserName}***, your timer has been started. Current date and time: `{datetime.now()}`")
+
     return ("nothing")
 
 if __name__ == "__main__":
