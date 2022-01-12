@@ -1,3 +1,17 @@
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+<script>
+  $(function() {
+    $('a#test').on('click', (e) => {
+      e.preventDefault()
+      $.getJSON('/startMessage', () => {
+          console.log("This is working with the button click");
+          
+      });
+      return false;
+    });
+});  
+</script>
 {% extends "layout.html" %}
 {% block title %}Dashboard{% endblock title %}
 {% block body %}
@@ -62,8 +76,6 @@
 {% endif %}
 
 <!-- JAVASCRIPT START  -->
-
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
 <script type="application/javascript">
   // JAVASCRIPT START
@@ -134,16 +146,7 @@
 
   // Start message button py function call,
 
-  $(() => {
-          $('a#test').on('click', (e) => {
-            e.preventDefault()
-            $.getJSON('/startMessage', () => {
-                console.log("This is working with the button click");
-                
-            });
-            return false;
-          });
-    });
+
 
 </script>
 <!-- JAVASCRIPT END  -->
