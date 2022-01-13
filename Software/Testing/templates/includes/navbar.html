@@ -22,7 +22,7 @@
               <li><a class="dropdown-item" href="#">Türkçe <img src="static/img/tr.png" alt="Turkish"></a></li>
             </ul>
           </li>
-          {% if session['logged_in'] and session['username'] == "Bzzman" %}
+          {% if session['logged_in'] and session['username'] == "sys_admin" %}
           <li class="nav-item">
             <a class="nav-link active" aria-current="page" href="/allLogs">All Logs</a>
           </li>

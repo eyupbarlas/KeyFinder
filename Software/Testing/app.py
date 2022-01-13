@@ -1,7 +1,7 @@
 """
 !                                     ----- KeyFinder -----
 
-* Google Forms link for Telegram Info: https://forms.gle/kB7yUi6nb6rmpYpN9
+* Google Forms link for Telegram Info: https://forms.gle/5udBj6vADnepoNjh8
     ! Don't forget the change the link in Terms & Conditions before launch.(Update terms and Google Form)
     ! No need to get people's chatID's and tokens. Just a group link.
         ? ChatID for group link gets updated everytime a user joins --> Careful.
@@ -13,14 +13,15 @@ from datetime import datetime
 import pymongo
 from passlib.hash import sha256_crypt
 from utils import *
+from config import DB_TOKEN
 
 #! Flask app init
 app = Flask(__name__)
 app.secret_key = "Bzzmans_Secret"
 
 #! MongoDB init
-client = pymongo.MongoClient('localhost',27017) #TODO=> Before production stage: Localhost --> MongoDB Atlas Cloud 
-db = client.KeyFinderTest1 # change collection name before launch
+client = pymongo.MongoClient(DB_TOKEN) 
+db = client.KeyFinder_Project
 users = db.users
 logs = db.logs
 telegramInfo = db.telegramInfo
@@ -47,6 +48,11 @@ def index():
 @app.route("/about")
 def about():
     return render_template("about.html")
+
+#! Terms page
+@app.route("/terms")
+def terms():
+    return render_template("terms.html")
 
 #! Login page
 @app.route("/login", methods=['GET', 'POST'])
