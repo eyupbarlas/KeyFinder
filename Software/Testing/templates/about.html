@@ -1,9 +1,132 @@
-{% extends "layout.html" %}
-{% block title %}About{% endblock title %}
+{% extends "layout.html" %} 
+{% block title %}About{% endblock title %} 
 {% block body %}
-<h3>About page</h3>
-<hr><br>
-<h5>Bzzman-CanceR production...</h5>
+<style>
+  body {
+    font-family: Arial, Helvetica, sans-serif;
+    margin: 0;
+  }
+
+  html {
+    box-sizing: border-box;
+  }
+
+  *,
+  *:before,
+  *:after {
+    box-sizing: inherit;
+  }
+
+  .column {
+    float: left;
+    width: 50%;
+    margin-bottom: 16px;
+    padding: 0 8px;
+  }
+
+  .card {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    background-color: goldenrod;
+    margin: 8px;
+  }
+
+  .about-section {
+    padding: 50px;
+    text-align: center;
+    background-color: goldenrod;
+    color: black;
+  }
+
+  .solution-section {
+    padding: 50px;
+    text-align: center;
+    background-color: goldenrod;
+    color: black;
+  }
+
+  .container {
+    padding: 0 16px;
+  }
+
+  .container::after,
+  .row::after {
+    content: "";
+    clear: both;
+    display: table;
+  }
+
+  .title {
+    color: darkgreen;
+  }
+
+  .button {
+    border: none;
+    outline: 0;
+    display: inline-block;
+    padding: 8px;
+    color: white;
+    background-color: #000;
+    text-align: center;
+    cursor: pointer;
+    width: 100%;
+  }
+
+  .button:hover {
+    background-color: #555;
+  }
+
+  @media screen and (max-width: 650px) {
+    .column {
+      width: 100%;
+      display: block;
+    }
+  }
+</style>
+<div class="about-section">
+  <h1>About Us</h1>
+  <hr>
+  <h5>KeyFinder is a solution for the laundry key problem.</h5>
+  <br>
+  <h5>Problem Details</h5>
+  <hr>
+  <ul class="list-group" style="text-align: left; ">
+    <li class="list-group-item" style="background-color: cornflowerblue; font-size: large;">People in Rubikon Dormitory suffer from a major problem.</li>
+    <li class="list-group-item" style="background-color: cornflowerblue; font-size: large;">The laundry room key is being taken from certain residents and these residents don’t return the keys on time.</li>
+    <li class="list-group-item" style="background-color: cornflowerblue; font-size: large;">Because they don’t return the keys on time, people who have to do their laundry can’t take the keys. People lose lots of time for the search of the keys.</li>
+    <li class="list-group-item" style="background-color: cornflowerblue; font-size: large;">This is a challenge for the residents of the Rubikon and this requires a solution.</li>
+  </ul>
+</div>
 <br>
-<p>e.n.</p>
+<div class="solution-section">
+    <h2>Our Solution</h2>
+    <hr>
+    <img src="/static/img/solution.jpg" class="mx-auto d-block" alt="solution" style="width: 70%">
+</div>
+<br>
+<h2 style="text-align: center; color: brown;">KeyFinder Team</h2>
+<div class="row">
+  <div class="column">
+    <div class="card">
+      <img src="/static/img/eyup.jpg" class="mx-auto d-block" alt="Eyup" style="width: 30%" />
+      <div class="container">
+        <h2>Eyüp Barlas</h2>
+        <p class="title">Co-Founder</p>
+        <p>Software Engineer | Backend Developer</p>
+        <p>Contact: <a href="mailto:eyupbarlas2134@gmail.com" style="font-size: large;">Email</a></p>
+      </div>
+    </div>
+  </div>
+
+  <div class="column">
+    <div class="card">
+      <img src="/static/img/waasiq.jpg" class="mx-auto d-block" alt="Waasiq" style="width: 30%" />
+      <div class="container">
+        <h2>Waasiq Masood</h2>
+        <p class="title">Co-Founder</p>
+        <p>Software Engineer | Frontend Developer</p>
+        <p>Contact: <a href="mailto:waasiq.masood@gmail.com" style="font-size: large;">Email</a></p>       
+      </div>
+    </div>
+  </div>
+</div>
 {% endblock body %}

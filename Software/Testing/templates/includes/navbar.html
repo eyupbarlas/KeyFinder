@@ -12,16 +12,16 @@
           <li class="nav-item">
             <a class="nav-link active" aria-current="page" href="/about">About</a>
           </li>
-          <li class="nav-item dropdown">
+          <!-- <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              Language
+              Language(Beta)
             </a>
             <ul class="dropdown-menu" aria-labelledby="navbarDropdown"> 
               <li><a class="dropdown-item" href="#">English <img src="static/img/us.png" alt="English"></a></li>
               <li><a class="dropdown-item" href="#">Polskie <img src="static/img/pl.png" alt="Polish"></a></li>
               <li><a class="dropdown-item" href="#">Türkçe <img src="static/img/tr.png" alt="Turkish"></a></li>
             </ul>
-          </li>
+          </li> -->
           {% if session['logged_in'] and session['username'] == "sys_admin" %}
           <li class="nav-item">
             <a class="nav-link active" aria-current="page" href="/allLogs">All Logs</a>

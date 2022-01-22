@@ -70,6 +70,7 @@ def login():
             flash("Login successful!","success")
             session["logged_in"] = True
             session["username"] = user['usernameEntry']   
+            print(color.GREEN + f"Login successful. User: {session['username']}")
 
             return redirect(url_for("dashboard"))
         
@@ -110,7 +111,9 @@ def addResident():
             'loginWhoIs' : session['username']
         }
         logs.insert_one(resident)
-        flash("Resident saved, timer has been started.","warning")
+        flash("Resident has been saved successfully.","warning")
+        print(color.GREEN + "Resident saved.")
+        print(color.PURPLE + f"Resident info:\n{resident}")
 
         return redirect(url_for('dashboard'))
     
@@ -136,6 +139,7 @@ def startMessage():
 
     currentUserName = last2logs[0]['fullname']
 
+    print(color.PURPLE+"Sending start message to resident1...")
     telegramNotificationSend(f"***@{currentUserName}***, your timer has been started. Current date and time: `{datetime.now()}`")
 
     return ("startMessage")
@@ -150,6 +154,7 @@ def overtimeMessage():
 
     currentUserName = last2logs[0]['fullname']
 
+    print(color.PURPLE+"Sending start message to resident1...")
     telegramNotificationSend(f"***@{currentUserName}***, your timer has been finished and you are on overtime. Current date and time: `{datetime.now()}`")
 
     return ("overtimeMessage")
