@@ -1,15 +1,12 @@
 # KeyFinder
 
 ## Architecture
+![KeyFinder Architecture](https://user-images.githubusercontent.com/72407947/150644157-d4381009-4481-48d4-8874-183efd69f373.jpg)
 
 ## About Project
-  ***Work in progress.*** This bot basically gets new coin listings from Binance using Binance API. An alert gets raised every time that a coin gets listed on Binance. After the alert, you can use the web page to purchase coins with the portion percentage. You need a Binance account to start trading. Then when you connect the API keys, you can purchase coins. Crypto trading is highly volatile. This project doesn't possess any trading advise. Trade carefully.
+  ***Work in progress.*** T
 ## Features
-* Getting market data every 10 minutes to detect if any new coin gets listed on Binance.
-* After detection, user gets notified via Telegram.
-* After notification, user can enter the Flask web application to purchase coin that coin quickly.
-* Only BUSD based coins are enabled for purchase for now. ***Other coins are on progress***.
-* You can contact with me to enabling other coins. Contact info below this page.
+* 
 
 ## How To Use
 ### Required Libs
