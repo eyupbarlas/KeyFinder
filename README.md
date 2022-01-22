@@ -46,12 +46,12 @@ To build a bot for Telegram, you need to talk to [BotFather](https://telegram.me
 > [Useful documentation from MongoDB](https://www.mongodb.com/developer/how-to/use-atlas-on-heroku/ "Atlas on Heroku")
 <br>
 
-### Contacting
+### Personal Informations
 > 
->> Eyüp Barlas  eyupbarlas2134@gmail.com
->>
->> Waasiq Masood  waasiq.masood@gmail.com
->> 
->> For more projects from me, [click here](https://github.com/eyupbarlas "my repos").
->> 
->> For more projects from Waasiq, [click here](https://github.com/waasiq "waasiqs repos")
+> Eyüp Barlas  eyupbarlas2134@gmail.com
+>
+> Waasiq Masood  waasiq.masood@gmail.com
+> 
+> For more projects from me, [click here](https://github.com/eyupbarlas "my repos").
+> 
+> For more projects from Waasiq, [click here](https://github.com/waasiq "waasiqs repos")
