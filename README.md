@@ -18,6 +18,10 @@ pip install Flask
 ```
 pip install pymongo
 ```
+* [Requests](https://docs.python-requests.org/en/latest/ "requests")
+```
+pip install requests
+```
 * [dnspython](https://pypi.org/project/dnspython/2.1.0/ "dnspython")
 ```
 pip install dnspython
