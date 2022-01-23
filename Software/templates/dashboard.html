@@ -98,7 +98,7 @@
   getTimerData();
 
   for (let i = 0; i < startBtnLength; i++) {
-      let totalTime = 5; //timerData[i];
+      let totalTime = timerData[i];//10;
       let count = 0;
       let countDown;  
       
@@ -128,6 +128,7 @@
       });
 
       startBtns[i].addEventListener('click', () => {
+        
         startBtns[i].disabled = true;   
         stopBtns[i].disabled = false;
         pauseBtns[i].disabled = false;    
@@ -143,16 +144,14 @@
           $.getJSON('/startMessageTwo', () => {
             console.log("This is working with the button click");          
           });
-        }
-        
-        
+        }    
 
         countDown = setInterval(() => {           
           if (totalTime == 0)
           {
             totalTime--;           
           }
-          else if(totalTime % 10 == -0)
+          else if(Math.sign(totalTime) === -1 && totalTime % 10 === -0)
           {
               if (i == 0)
               {     
@@ -174,6 +173,12 @@
               totalTime--;
               timer[i].innerHTML = totalTime;             
           }
+
+          $.getJSON('/tester', (val) => {
+                  console.log("Tester is actually working now :D");
+                  console.log(val);
+          });
+
       }, 1000);
     })
   }  

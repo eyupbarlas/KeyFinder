@@ -154,7 +154,7 @@ def overtimeMessage():
 
     currentUserName = last2logs[0]['fullname']
 
-    print(color.PURPLE+"Sending start message to resident1...")
+    print(color.PURPLE+"Sending overtime message to resident1...")
     telegramNotificationSend(f"***@{currentUserName}***, your timer has been finished and you are on overtime. Current date and time: `{datetime.now()}`")
 
     return ("overtimeMessage")
@@ -202,6 +202,7 @@ def overtimeMessageTwo():
     return ("overtimeMessageTwo")
 
 #! Stop Message for 2. Resident  
+
 @app.route("/stopMessageTwo")
 @login_required
 def stopMessageTwo(): 
@@ -214,6 +215,14 @@ def stopMessageTwo():
     telegramNotificationSend(f"***@{currentUserName}***, your timer has been stopped. Current date and time: `{datetime.now()}`")
 
     return ("stopMessageTwo")
+
+#! Tester function for this stupid shit 
+@app.route("/tester")
+@login_required
+def tester():
+    print('Test timer background')
+
+    return("testermessge")
 
 #! Logout
 @app.route('/logout')
