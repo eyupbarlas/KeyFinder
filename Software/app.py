@@ -6,7 +6,7 @@
     ! No need to get people's chatID's and tokens. Just a group link.
         ? ChatID for group link gets updated everytime a user joins --> Careful.
 """
-
+#! Importing Libraries
 from flask import Flask, render_template, session, request, redirect, url_for, flash
 from functools import wraps
 from datetime import datetime
@@ -26,7 +26,7 @@ users = db.users
 logs = db.logs
 telegramInfo = db.telegramInfo
 
-#! User entry decorator 
+#! User entry decorator for restricting unlogged operations
 def login_required(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
@@ -58,17 +58,17 @@ def terms():
 @app.route("/login", methods=['GET', 'POST'])
 def login():
     if request.method == "POST":
-        user = {
+        user = {    # Getting form requests to match with database
             "usernameEntry" : request.form.get("usernameEntry"),
             "passwordEntry" : request.form.get("passwordEntry")
         }
-        usr = users.find_one({'username': user['usernameEntry']})
+        usr = users.find_one({'username': user['usernameEntry']}) # database query
         
-        passVerify = sha256_crypt.verify(user['passwordEntry'],usr['password'])
+        passVerify = sha256_crypt.verify(user['passwordEntry'],usr['password']) # sha256 verification
         
         if passVerify:   
             flash("Login successful!","success")
-            session["logged_in"] = True
+            session["logged_in"] = True  # starting session
             session["username"] = user['usernameEntry']   
             print(color.GREEN + f"Login successful. User: {session['username']}")
 
@@ -100,7 +100,7 @@ def dashboard():
 @login_required
 def addResident():
     if request.method == 'POST':
-        resident = {
+        resident = {    # Getting form requests to save data to the database
             'fullname' : request.form.get('residentFullName'),
             'roomNum' : request.form.get('residentRoomNum'),
             'laundryNum' : request.form.get('laundryRooms'), 
@@ -110,7 +110,7 @@ def addResident():
             'givenTime': request.form.get('givenTime'),
             'loginWhoIs' : session['username']
         }
-        logs.insert_one(resident)
+        logs.insert_one(resident) # saving resident
         flash("Resident has been saved successfully.","warning")
         print(color.GREEN + "Resident saved.")
         print(color.PURPLE + f"Resident info:\n{resident}")
@@ -123,7 +123,7 @@ def addResident():
 @app.route("/allLogs")
 @login_required
 def allLogs():
-    allTimeLogs = logs.find().sort([('$natural', -1)])
+    allTimeLogs = logs.find().sort([('$natural', -1)]) # querying all logs
     if allTimeLogs:
         return render_template('allLogs.html', allTimeLogs=allTimeLogs)
         
@@ -134,13 +134,13 @@ def allLogs():
 @login_required
 def startMessage():
     last2logs = []
-    for i in logs.find().sort([('$natural', -1)]).limit(2):
+    for i in logs.find().sort([('$natural', -1)]).limit(2): # query of last 2 logs
         last2logs.append(i)
 
-    currentUserName = last2logs[0]['fullname']
+    currentUserName = last2logs[0]['fullname'] # generating fullname from query to send Telegram notifications
 
     print(color.PURPLE+"Sending start message to resident1...")
-    telegramNotificationSend(f"***@{currentUserName}***, your timer has been started. Current date and time: `{datetime.now()}`")
+    telegramNotificationSend(f"***@{currentUserName}***, your timer has been started. Current date and time: `{datetime.now()}`") 
 
     return ("startMessage")
 
@@ -149,10 +149,10 @@ def startMessage():
 @login_required
 def overtimeMessage():
     last2logs = []
-    for i in logs.find().sort([('$natural', -1)]).limit(2):
+    for i in logs.find().sort([('$natural', -1)]).limit(2): # query of last 2 logs
         last2logs.append(i)
 
-    currentUserName = last2logs[0]['fullname']
+    currentUserName = last2logs[0]['fullname'] # generating fullname from query to send Telegram notifications
 
     print(color.PURPLE+"Sending overtime message to resident1...")
     telegramNotificationSend(f"***@{currentUserName}***, your timer has been finished and you are on overtime. Current date and time: `{datetime.now()}`")
@@ -164,10 +164,10 @@ def overtimeMessage():
 @login_required
 def stopMessage():
     last2logs = []
-    for i in logs.find().sort([('$natural', -1)]).limit(2):
+    for i in logs.find().sort([('$natural', -1)]).limit(2): # query of last 2 logs
         last2logs.append(i)
 
-    currentUserName = last2logs[0]['fullname']
+    currentUserName = last2logs[0]['fullname'] # generating fullname from query to send Telegram notifications
 
     telegramNotificationSend(f"***@{currentUserName}***, your timer has been stopped. Current date and time: `{datetime.now()}`")
 
@@ -178,10 +178,10 @@ def stopMessage():
 @login_required
 def startMessageTwo():
     last2logs = []
-    for i in logs.find().sort([('$natural', -1)]).limit(2):
+    for i in logs.find().sort([('$natural', -1)]).limit(2): # query of last 2 logs
         last2logs.append(i)
 
-    currentUserName = last2logs[1]['fullname']
+    currentUserName = last2logs[1]['fullname'] # generating fullname from query to send Telegram notifications
 
     telegramNotificationSend(f"***@{currentUserName}***, your timer has been started. Current date and time: `{datetime.now()}`")
 
@@ -192,25 +192,24 @@ def startMessageTwo():
 @login_required
 def overtimeMessageTwo():
     last2logs = []
-    for i in logs.find().sort([('$natural', -1)]).limit(2):
+    for i in logs.find().sort([('$natural', -1)]).limit(2): # query of last 2 logs
         last2logs.append(i)
 
-    currentUserName = last2logs[1]['fullname']
+    currentUserName = last2logs[1]['fullname'] # generating fullname from query to send Telegram notifications
 
     telegramNotificationSend(f"***@{currentUserName}***, your timer has been finished and you are on overtime. Current date and time: `{datetime.now()}`")
 
     return ("overtimeMessageTwo")
 
 #! Stop Message for 2. Resident  
-
 @app.route("/stopMessageTwo")
 @login_required
 def stopMessageTwo(): 
     last2logs = []
-    for i in logs.find().sort([('$natural', -1)]).limit(2):
+    for i in logs.find().sort([('$natural', -1)]).limit(2): # query of last 2 logs
         last2logs.append(i)
 
-    currentUserName = last2logs[1]['fullname']
+    currentUserName = last2logs[1]['fullname'] # generating fullname from query to send Telegram notifications
 
     telegramNotificationSend(f"***@{currentUserName}***, your timer has been stopped. Current date and time: `{datetime.now()}`")
 
@@ -228,7 +227,7 @@ def tester():
 @app.route('/logout')
 @login_required
 def logout():
-    session.clear()
+    session.clear() # Clearing session and logging out
     flash("Logout successful.","success")
     return redirect(url_for("index"))
 
