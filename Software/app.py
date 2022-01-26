@@ -108,6 +108,8 @@ def addResident():
             'laundryType' : request.form.getlist('laundryType'),
             'creationDate' : datetime.now(),
             'givenTime': request.form.get('givenTime'),
+            'startTime' : datetime(1, 1, 1, 1, 1, 1, 1),  #? Testing purposes
+            'endTime' : datetime(1, 1, 1, 1, 1, 1, 1),  #? Testing purposes
             'loginWhoIs' : session['username']
         }
         logs.insert_one(resident) # saving resident
@@ -138,9 +140,17 @@ def startMessage():
         last2logs.append(i)
 
     currentUserName = last2logs[0]['fullname'] # generating fullname from query to send Telegram notifications
+    currentUserId = last2logs[0]['_id']
 
     print(color.PURPLE+"Sending start message to resident1...")
     telegramNotificationSend(f"***@{currentUserName}***, your timer has been started. Current date and time: `{datetime.now()}`") 
+
+    #TODO-> Do the start timer thing here.
+    #TODO Update the database with current timestamp
+    startQuery = {'_id' : currentUserId}
+    startNewValues = {'$set' : {'startTime' : datetime.now()}}
+
+    logs.update_one(startQuery, startNewValues) 
 
     return ("startMessage")
 
@@ -168,8 +178,16 @@ def stopMessage():
         last2logs.append(i)
 
     currentUserName = last2logs[0]['fullname'] # generating fullname from query to send Telegram notifications
+    currentUserId = last2logs[0]['_id']
 
     telegramNotificationSend(f"***@{currentUserName}***, your timer has been stopped. Current date and time: `{datetime.now()}`")
+
+    #TODO-> Do the stop timer thing here.
+    #TODO Update the database with current timestamp
+    endQuery = {'_id' : currentUserId}
+    endNewValues = {'$set' : {'endTime' : datetime.now()}}
+
+    logs.update_one(endQuery, endNewValues) 
 
     return ("stopMessage")
 
@@ -182,8 +200,16 @@ def startMessageTwo():
         last2logs.append(i)
 
     currentUserName = last2logs[1]['fullname'] # generating fullname from query to send Telegram notifications
+    currentUserId = last2logs[1]['_id']
 
     telegramNotificationSend(f"***@{currentUserName}***, your timer has been started. Current date and time: `{datetime.now()}`")
+
+    #TODO-> Do the start timer thing here.
+    #TODO Update the database with current timestamp
+    startQuery = {'_id' : currentUserId}
+    startNewValues = {'$set' : {'startTime' : datetime.now()}}
+
+    logs.update_one(startQuery, startNewValues) 
 
     return ("startMessageTwo")
 
@@ -210,8 +236,16 @@ def stopMessageTwo():
         last2logs.append(i)
 
     currentUserName = last2logs[1]['fullname'] # generating fullname from query to send Telegram notifications
+    currentUserId = last2logs[1]['_id']
 
     telegramNotificationSend(f"***@{currentUserName}***, your timer has been stopped. Current date and time: `{datetime.now()}`")
+
+    #TODO-> Do the stop timer thing here.
+    #TODO Update the database with current timestamp
+    endQuery = {'_id' : currentUserId}
+    endNewValues = {'$set' : {'endTime' : datetime.now()}}
+
+    logs.update_one(endQuery, endNewValues) 
 
     return ("stopMessageTwo")
 
@@ -221,7 +255,7 @@ def stopMessageTwo():
 def tester():
     print('Test timer background')
 
-    return("testermessge")
+    return("testermessage")
 
 #! Logout
 @app.route('/logout')
