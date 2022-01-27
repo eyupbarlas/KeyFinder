@@ -108,9 +108,9 @@ def addResident():
             'laundryType' : request.form.getlist('laundryType'),
             'creationDate' : datetime.now(),
             'givenTime': request.form.get('givenTime'),
-            'startTime' : datetime(1, 1, 1, 1, 1, 1, 1),  #? Testing purposes
-            'endTime' : datetime(1, 1, 1, 1, 1, 1, 1),  #? Testing purposes
-            'overtimeCount' : 0,  #? Testing purposes
+            'startTime' : datetime(1, 1, 1, 1, 1, 1, 1),
+            'endTime' : datetime(1, 1, 1, 1, 1, 1, 1), 
+            'overtimeCount' : 0,
             'loginWhoIs' : session['username']
         }
         logs.insert_one(resident) # saving resident
@@ -164,6 +164,7 @@ def startMessageTwo():
     currentUserName = last2logs[1]['fullname'] # generating fullname from query to send Telegram notifications
     currentUserId = last2logs[1]['_id'] # getting _id for queries
 
+    print(color.PURPLE+"Sending start message to resident2...")
     telegramNotificationSend(f"***@{currentUserName}***, your timer has been started. Current date and time: `{datetime.now()}`")
 
     startQuery = {'_id' : currentUserId}
@@ -204,7 +205,8 @@ def overtimeMessageTwo():
 
     currentUserName = last2logs[1]['fullname'] # generating fullname from query to send Telegram notifications
     currentUserId = last2logs[1]['_id'] # getting _id for queries
- 
+    
+    print(color.PURPLE+"Sending overtime message to resident2...")
     telegramNotificationSend(f"***@{currentUserName}***, your timer has been finished and you are on overtime. Current date and time: `{datetime.now()}`")
 
     overtimeQuery = {'_id' : currentUserId}
@@ -226,6 +228,7 @@ def stopMessage():
     currentUserId = last2logs[0]['_id'] # getting _id for queries
     currentUserOvertimes = last2logs[0]['overtimeCount'] # getting overtimeCount for penalty calculation
 
+    print(color.PURPLE+"Sending stop message to resident1...")
     telegramNotificationSend(f"***@{currentUserName}***, your timer has been stopped. Current date and time: `{datetime.now()}`")
 
     endQuery = {'_id' : currentUserId}
@@ -236,12 +239,14 @@ def stopMessage():
     if currentUserOvertimes > 0: # Check the overtimeCount here and send a final message says the total overtimed hours.
         telegramNotificationSend(f"***@{currentUserName}***, you are {currentUserOvertimes} hours late. Total penalty is: `{currentUserOvertimes*5} PLN`.")
 
-    #? Testing below
-    currentStartTime = last2logs[0]['startTime']
-    currentEndTime = last2logs[0]['endTime']
+
+    #? Testing below -> Trying to get actual time past in backend and saving it to the db.
+    currentStartTime = last2logs[0]['startTime'].strftime("%S") #? only getting seconds(trimming as str)
+    currentEndTime = last2logs[0]['endTime'].strftime("%S")
 
     print(f"Start: {currentStartTime}\nStop: {currentEndTime}")
-    print(f"Time difference: {(currentEndTime-currentStartTime).total_seconds()}")
+    print(f"Time difference: {(float(currentEndTime)-float(currentStartTime))}")
+
 
     return ("stopMessage")
 
@@ -257,6 +262,7 @@ def stopMessageTwo():
     currentUserId = last2logs[1]['_id'] # getting _id for queries
     currentUserOvertimes = last2logs[1]['overtimeCount'] # getting overtimeCount for penalty calculation
 
+    print(color.PURPLE+"Sending stop message to resident2...")
     telegramNotificationSend(f"***@{currentUserName}***, your timer has been stopped. Current date and time: `{datetime.now()}`")
 
     endQuery = {'_id' : currentUserId}
