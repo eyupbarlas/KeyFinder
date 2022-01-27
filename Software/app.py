@@ -110,6 +110,7 @@ def addResident():
             'givenTime': request.form.get('givenTime'),
             'startTime' : datetime(1, 1, 1, 1, 1, 1, 1),  #? Testing purposes
             'endTime' : datetime(1, 1, 1, 1, 1, 1, 1),  #? Testing purposes
+            'overtimeCount' : 0,  #? Testing purposes
             'loginWhoIs' : session['username']
         }
         logs.insert_one(resident) # saving resident
@@ -140,56 +141,18 @@ def startMessage():
         last2logs.append(i)
 
     currentUserName = last2logs[0]['fullname'] # generating fullname from query to send Telegram notifications
-    currentUserId = last2logs[0]['_id']
+    currentUserId = last2logs[0]['_id'] # getting _id for queries
 
     print(color.PURPLE+"Sending start message to resident1...")
     telegramNotificationSend(f"***@{currentUserName}***, your timer has been started. Current date and time: `{datetime.now()}`") 
 
     #TODO-> Do the start timer thing here.
-    #TODO Update the database with current timestamp
     startQuery = {'_id' : currentUserId}
-    startNewValues = {'$set' : {'startTime' : datetime.now()}}
+    startNewValues = {'$set' : {'startTime' : datetime.now()}} # Updating the database with current timestamp
 
     logs.update_one(startQuery, startNewValues) 
 
     return ("startMessage")
-
-#! Overtime Message for 1. Resident  
-@app.route("/overtimeMessage")
-@login_required
-def overtimeMessage():
-    last2logs = []
-    for i in logs.find().sort([('$natural', -1)]).limit(2): # query of last 2 logs
-        last2logs.append(i)
-
-    currentUserName = last2logs[0]['fullname'] # generating fullname from query to send Telegram notifications
-
-    print(color.PURPLE+"Sending overtime message to resident1...")
-    telegramNotificationSend(f"***@{currentUserName}***, your timer has been finished and you are on overtime. Current date and time: `{datetime.now()}`")
-
-    return ("overtimeMessage")
-
-#! Stop Message for 1. Resident  
-@app.route("/stopMessage")
-@login_required
-def stopMessage():
-    last2logs = []
-    for i in logs.find().sort([('$natural', -1)]).limit(2): # query of last 2 logs
-        last2logs.append(i)
-
-    currentUserName = last2logs[0]['fullname'] # generating fullname from query to send Telegram notifications
-    currentUserId = last2logs[0]['_id']
-
-    telegramNotificationSend(f"***@{currentUserName}***, your timer has been stopped. Current date and time: `{datetime.now()}`")
-
-    #TODO-> Do the stop timer thing here.
-    #TODO Update the database with current timestamp
-    endQuery = {'_id' : currentUserId}
-    endNewValues = {'$set' : {'endTime' : datetime.now()}}
-
-    logs.update_one(endQuery, endNewValues) 
-
-    return ("stopMessage")
 
 #! Start Message for 2. Resident  
 @app.route("/startMessageTwo")
@@ -200,18 +163,39 @@ def startMessageTwo():
         last2logs.append(i)
 
     currentUserName = last2logs[1]['fullname'] # generating fullname from query to send Telegram notifications
-    currentUserId = last2logs[1]['_id']
+    currentUserId = last2logs[1]['_id'] # getting _id for queries
 
     telegramNotificationSend(f"***@{currentUserName}***, your timer has been started. Current date and time: `{datetime.now()}`")
 
     #TODO-> Do the start timer thing here.
-    #TODO Update the database with current timestamp
     startQuery = {'_id' : currentUserId}
-    startNewValues = {'$set' : {'startTime' : datetime.now()}}
+    startNewValues = {'$set' : {'startTime' : datetime.now()}} # Updating the database with current timestamp
 
     logs.update_one(startQuery, startNewValues) 
 
     return ("startMessageTwo")
+
+#! Overtime Message for 1. Resident  
+@app.route("/overtimeMessage")
+@login_required
+def overtimeMessage():
+    last2logs = []
+    for i in logs.find().sort([('$natural', -1)]).limit(2): # query of last 2 logs
+        last2logs.append(i)
+
+    currentUserName = last2logs[0]['fullname'] # generating fullname from query to send Telegram notifications
+    currentUserId = last2logs[0]['_id'] # getting _id for queries
+
+    print(color.PURPLE+"Sending overtime message to resident1...")
+    telegramNotificationSend(f"***@{currentUserName}***, your timer has been finished and you are on overtime. Current date and time: `{datetime.now()}`")
+    
+    #TODO-> Do the overtimeCount increase here.
+    overtimeQuery = {'_id' : currentUserId}
+    overtimeNewValues = {'$inc' : {'overtimeCount' : 1}} # increasing overtimeCount by 1
+
+    logs.update_one(overtimeQuery, overtimeNewValues)
+
+    return ("overtimeMessage")
 
 #! Overtime Message for 2. Resident  
 @app.route("/overtimeMessageTwo")
@@ -222,10 +206,38 @@ def overtimeMessageTwo():
         last2logs.append(i)
 
     currentUserName = last2logs[1]['fullname'] # generating fullname from query to send Telegram notifications
-
+    currentUserId = last2logs[1]['_id'] # getting _id for queries
+ 
     telegramNotificationSend(f"***@{currentUserName}***, your timer has been finished and you are on overtime. Current date and time: `{datetime.now()}`")
 
+    #TODO-> Do the overtimeCount increase here.
+    overtimeQuery = {'_id' : currentUserId}
+    overtimeNewValues = {'$inc' : {'overtimeCount' : 1}} # increasing overtimeCount by 1
+
+    logs.update_one(overtimeQuery, overtimeNewValues)
+
     return ("overtimeMessageTwo")
+
+#! Stop Message for 1. Resident  
+@app.route("/stopMessage")
+@login_required
+def stopMessage():
+    last2logs = []
+    for i in logs.find().sort([('$natural', -1)]).limit(2): # query of last 2 logs
+        last2logs.append(i)
+
+    currentUserName = last2logs[0]['fullname'] # generating fullname from query to send Telegram notifications
+    currentUserId = last2logs[0]['_id'] # getting _id for queries
+
+    telegramNotificationSend(f"***@{currentUserName}***, your timer has been stopped. Current date and time: `{datetime.now()}`")
+
+    #TODO-> Do the stop timer thing here.
+    endQuery = {'_id' : currentUserId}
+    endNewValues = {'$set' : {'endTime' : datetime.now()}} # Updating the database with current timestamp
+
+    logs.update_one(endQuery, endNewValues) 
+
+    return ("stopMessage")
 
 #! Stop Message for 2. Resident  
 @app.route("/stopMessageTwo")
@@ -236,14 +248,13 @@ def stopMessageTwo():
         last2logs.append(i)
 
     currentUserName = last2logs[1]['fullname'] # generating fullname from query to send Telegram notifications
-    currentUserId = last2logs[1]['_id']
+    currentUserId = last2logs[1]['_id'] # getting _id for queries
 
     telegramNotificationSend(f"***@{currentUserName}***, your timer has been stopped. Current date and time: `{datetime.now()}`")
 
     #TODO-> Do the stop timer thing here.
-    #TODO Update the database with current timestamp
     endQuery = {'_id' : currentUserId}
-    endNewValues = {'$set' : {'endTime' : datetime.now()}}
+    endNewValues = {'$set' : {'endTime' : datetime.now()}} # Updating the database with current timestamp
 
     logs.update_one(endQuery, endNewValues) 
 
