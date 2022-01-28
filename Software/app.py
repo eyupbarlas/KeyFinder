@@ -9,7 +9,7 @@
 #! Importing Libraries
 from flask import Flask, render_template, session, request, redirect, url_for, flash
 from functools import wraps
-from datetime import datetime
+from datetime import datetime, timedelta
 import pymongo
 from passlib.hash import sha256_crypt
 from utils import *
@@ -37,6 +37,18 @@ def login_required(f):
             return redirect(url_for("login"))
     return decorated_function
 
+#! Session Timeout -> 15mins
+@app.before_request
+def make_session_permanent():
+    session.permanent = True
+    app.permanent_session_lifetime = timedelta(minutes=15)
+
+#! Time Differences
+def getTimeDifference(TimeStart, TimeEnd): # when enter values, change places
+    timeDiff = TimeEnd - TimeStart
+    return timeDiff.total_seconds() / 60
+
+date_format_str = '%Y-%m-%d %H:%M:%S.%f'
 # ========================================================================================
 
 #! Index page
@@ -108,8 +120,8 @@ def addResident():
             'laundryType' : request.form.getlist('laundryType'),
             'creationDate' : datetime.now(),
             'givenTime': request.form.get('givenTime'),
-            'startTime' : datetime(1, 1, 1, 1, 1, 1, 1),
-            'endTime' : datetime(1, 1, 1, 1, 1, 1, 1), 
+            'startTime' : "",
+            'endTime' : "", 
             'overtimeCount' : 0,
             'loginWhoIs' : session['username']
         }
@@ -147,7 +159,7 @@ def startMessage():
     telegramNotificationSend(f"***@{currentUserName}***, your timer has been started. Current date and time: `{datetime.now()}`") 
 
     startQuery = {'_id' : currentUserId}
-    startNewValues = {'$set' : {'startTime' : datetime.now()}} # setting the startTime's value with current timestamp
+    startNewValues = {'$set' : {'startTime' : str(datetime.now())}} # setting the startTime's value with current timestamp
 
     logs.update_one(startQuery, startNewValues) # updating database
 
@@ -168,7 +180,7 @@ def startMessageTwo():
     telegramNotificationSend(f"***@{currentUserName}***, your timer has been started. Current date and time: `{datetime.now()}`")
 
     startQuery = {'_id' : currentUserId}
-    startNewValues = {'$set' : {'startTime' : datetime.now()}} # setting the startTime's value with current timestamp
+    startNewValues = {'$set' : {'startTime' : str(datetime.now())}} # setting the startTime's value with current timestamp
 
     logs.update_one(startQuery, startNewValues) # updating database
 
@@ -232,20 +244,32 @@ def stopMessage():
     telegramNotificationSend(f"***@{currentUserName}***, your timer has been stopped. Current date and time: `{datetime.now()}`")
 
     endQuery = {'_id' : currentUserId}
-    endNewValues = {'$set' : {'endTime' : datetime.now()}} # setting the endTime's value with current timestamp
+    endNewValues = {'$set' : {'endTime' : str(datetime.now())}} # setting the endTime's value with current timestamp
 
     logs.update_one(endQuery, endNewValues) # updating database
 
     if currentUserOvertimes > 0: # Check the overtimeCount here and send a final message says the total overtimed hours.
         telegramNotificationSend(f"***@{currentUserName}***, you are {currentUserOvertimes} hours late. Total penalty is: `{currentUserOvertimes*5} PLN`.")
 
-
     #? Testing below -> Trying to get actual time past in backend and saving it to the db.
-    currentStartTime = last2logs[0]['startTime'].strftime("%S") #? only getting seconds(trimming as str)
-    currentEndTime = last2logs[0]['endTime'].strftime("%S")
+    # currentStartTime = last2logs[0]['startTime'].strftime("%S") #? only getting seconds(trimming as str)
+    # currentEndTime = last2logs[0]['endTime'].strftime("%S")
 
-    print(f"Start: {currentStartTime}\nStop: {currentEndTime}")
-    print(f"Time difference: {(float(currentEndTime)-float(currentStartTime))}")
+    # print(f"Start: {currentStartTime}\nStop: {currentEndTime}")
+    # print(f"Time difference: {(float(currentEndTime)-float(currentStartTime))}")
+
+    currentStartTime = last2logs[0]['startTime']
+    currentEndTime = last2logs[0]['endTime']
+    start = datetime.strptime(currentStartTime, date_format_str)
+    end = datetime.strptime(currentEndTime, date_format_str)
+    diff = getTimeDifference(end, start)
+
+    print(f"Current Start: {start}")
+    print(f"Current End: {end}")
+    print(f"Difference: {diff}")
+    # returns (minutes, seconds)
+    
+
 
 
     return ("stopMessage")
@@ -266,7 +290,7 @@ def stopMessageTwo():
     telegramNotificationSend(f"***@{currentUserName}***, your timer has been stopped. Current date and time: `{datetime.now()}`")
 
     endQuery = {'_id' : currentUserId}
-    endNewValues = {'$set' : {'endTime' : datetime.now()}} # setting the endTime's value with current timestamp
+    endNewValues = {'$set' : {'endTime' : str(datetime.now())}} # setting the endTime's value with current timestamp
 
     logs.update_one(endQuery, endNewValues) # updating database
 
