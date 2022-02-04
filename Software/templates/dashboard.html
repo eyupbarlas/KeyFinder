@@ -99,6 +99,25 @@
 
   for (let i = 0; i < startBtnLength; i++) {
       let totalTime = timerData[i];//10;
+            
+      if (i == 0)
+      {
+        if (window.localStorage.getItem('timeONE') !== null && parseInt(window.localStorage.getItem('timeONE')) !== timerData[i])
+        {
+          totalTime = parseInt(window.localStorage.getItem('timeONE'))
+          timerData[i] = totalTime
+        }
+      }
+      else if (i == 1)
+      {
+        if (window.localStorage.getItem('timeTWO') !== null && parseInt(window.localStorage.getItem('timeTWO')) !== timerData[i])
+        {
+          totalTime = parseInt(window.localStorage.getItem('timeTWO'))
+          timerData[i] = totalTime
+        }
+      }
+      
+
       let count = 0;
       let countDown;  
       
@@ -128,7 +147,6 @@
       });
 
       startBtns[i].addEventListener('click', () => {
-        
         startBtns[i].disabled = true;   
         stopBtns[i].disabled = false;
         pauseBtns[i].disabled = false;    
@@ -156,13 +174,13 @@
               if (i == 0)
               {     
                 $.getJSON('/overtimeMessage', () => {
-                  console.log("This is working with the button click");
+                  console.log("First overtime message");
                 });
               }
               else if (i == 1)
               {
                 $.getJSON('/overtimeMessageTwo', () => {
-                  console.log("This is working with the button click");
+                  console.log("Second overtime message");
                 });
               }
              
@@ -171,14 +189,12 @@
           else
           {
               totalTime--;
-              timer[i].innerHTML = totalTime;             
+              timer[i].innerHTML = totalTime;
+
+              if (i == 0) window.localStorage.setItem('timeONE', totalTime)   
+              else if (i == 1) window.localStorage.setItem('timeTWO', totalTime)           
+                 
           }
-
-          $.getJSON('/tester', (val) => {
-                  console.log("Tester is actually working now :D");
-                  console.log(val);
-          });
-
       }, 1000);
     })
   }  

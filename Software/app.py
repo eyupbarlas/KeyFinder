@@ -275,13 +275,6 @@ def stopMessageTwo():
     
     return ("stopMessageTwo")
 
-#! Tester function for this stupid shit 
-@app.route("/tester")
-@login_required
-def tester():
-    # print('Test timer background')
-
-    return("testermessage")
 
 #! Logout
 @app.route('/logout')

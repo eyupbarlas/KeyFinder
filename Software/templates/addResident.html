@@ -100,6 +100,9 @@
         }
 
         timeGiven.value = totalTime;
+        oldTimeOne = parseInt(window.localStorage.getItem('timeONE'));
+        window.localStorage.setItem('timeONE', totalTime);
+        window.localStorage.setItem('timeTWO', oldTimeOne)
     });
 
     // Form control is done even the final submit button is clicked
