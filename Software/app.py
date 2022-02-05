@@ -9,7 +9,7 @@
 #! Importing Libraries
 from flask import Flask, render_template, session, request, redirect, url_for, flash
 from functools import wraps
-from datetime import datetime
+from datetime import datetime, timedelta
 import pymongo
 from passlib.hash import sha256_crypt
 from utils import *
@@ -36,6 +36,12 @@ def login_required(f):
             flash("You have to login first. Unauthorised action.","danger")
             return redirect(url_for("login"))
     return decorated_function
+
+#! Timeout
+@app.before_request
+def make_session_permanent():
+    session.permanent = True
+    app.permanent_session_lifetime = timedelta(minutes=15)
 
 # ========================================================================================
 
