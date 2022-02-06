@@ -117,6 +117,7 @@ def addResident():
             'startTime' : datetime(1, 1, 1, 1, 1, 1, 1),
             'endTime' : datetime(1, 1, 1, 1, 1, 1, 1), 
             'overtimeCount' : 0,
+            'status' : '',
             'loginWhoIs' : session['username']
         }
         logs.insert_one(resident) # saving resident
@@ -153,7 +154,10 @@ def startMessage():
     telegramNotificationSend(f"***@{currentUserName}***, your timer has been started. Current date and time: `{datetime.now()}`") 
 
     startQuery = {'_id' : currentUserId}
-    startNewValues = {'$set' : {'startTime' : datetime.now()}} # setting the startTime's value with current timestamp
+    startNewValues = {'$set' : {
+        'startTime' : datetime.now(),
+        'status' : 'Active'
+    }} # setting the startTime's value with current timestamp and status update
 
     logs.update_one(startQuery, startNewValues) # updating database
 
@@ -174,7 +178,10 @@ def startMessageTwo():
     telegramNotificationSend(f"***@{currentUserName}***, your timer has been started. Current date and time: `{datetime.now()}`")
 
     startQuery = {'_id' : currentUserId}
-    startNewValues = {'$set' : {'startTime' : datetime.now()}} # setting the startTime's value with current timestamp
+    startNewValues = {'$set' : {
+        'startTime' : datetime.now(),
+        'status' : 'Active'
+    }} # setting the startTime's value with current timestamp and status update
 
     logs.update_one(startQuery, startNewValues) # updating database
 
@@ -238,13 +245,15 @@ def stopMessage():
     telegramNotificationSend(f"***@{currentUserName}***, your timer has been stopped. Current date and time: `{datetime.now()}`")
 
     endQuery = {'_id' : currentUserId}
-    endNewValues = {'$set' : {'endTime' : datetime.now()}} # setting the endTime's value with current timestamp
+    endNewValues = {'$set' : {
+        'endTime' : datetime.now(),
+        'status' : 'Terminated'
+    }} # setting the endTime's value with current timestamp and status update
 
     logs.update_one(endQuery, endNewValues) # updating database
 
     if currentUserOvertimes > 0: # Check the overtimeCount here and send a final message says the total overtimed hours.
         telegramNotificationSend(f"***@{currentUserName}***, you are {currentUserOvertimes} hours late. Total penalty is: `{currentUserOvertimes*5} PLN`.")
-
 
     #? Testing below -> Trying to get actual time past in backend and saving it to the db.
     currentStartTime = last2logs[0]['startTime'].strftime("%S") #? only getting seconds(trimming as str)
@@ -252,7 +261,6 @@ def stopMessage():
 
     print(f"Start: {currentStartTime}\nStop: {currentEndTime}")
     print(f"Time difference: {(float(currentEndTime)-float(currentStartTime))}")
-
 
     return ("stopMessage")
 
@@ -272,7 +280,10 @@ def stopMessageTwo():
     telegramNotificationSend(f"***@{currentUserName}***, your timer has been stopped. Current date and time: `{datetime.now()}`")
 
     endQuery = {'_id' : currentUserId}
-    endNewValues = {'$set' : {'endTime' : datetime.now()}} # setting the endTime's value with current timestamp
+    endNewValues = {'$set' : {
+        'endTime' : datetime.now(),
+        'status' : 'Terminated'
+    }} # setting the endTime's value with current timestamp and status update
 
     logs.update_one(endQuery, endNewValues) # updating database
 
