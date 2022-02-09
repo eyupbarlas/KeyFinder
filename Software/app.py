@@ -1,8 +1,7 @@
 """
 !                                     ----- KeyFinder -----
 
-* Google Forms link for Telegram Info: https://forms.gle/5udBj6vADnepoNjh8
-    ! Don't forget the change the link in Terms & Conditions before launch.(Update terms and Google Form)
+* Google Forms link for Telegram Info: https://forms.gle/emYCYLSeXpEdh8hB9
     ! No need to get people's chatID's and tokens. Just a group link.
         ? ChatID for group link gets updated everytime a user joins --> Careful.
 """
