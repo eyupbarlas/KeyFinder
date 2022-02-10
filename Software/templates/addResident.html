@@ -7,9 +7,9 @@
     <form method="post" class="needs-validation">
         <dl>
             <div class="mb-3">
-                <label class="form-label">Resident Name</label>
-                <input type="text" class="form-control" id="resident-name" name="residentFullName" aria-describedby="residentNameHelp">
-                <div id="nameHelp" class="form-text">Please enter the full name(first name, last name).</div>
+                <label class="form-label">Resident Telegram Username</label>
+                <input type="text" class="form-control" id="telegram-username" name="telegramUsername" aria-describedby="telegramUsernameHelp">
+                <div id="nameHelp" class="form-text">Please enter the Telegram Username.</div>
             </div>
             <div class="mb-3">
                 <label class="form-label">Room Number</label>
@@ -63,7 +63,7 @@
     const timeGiven = document.getElementById('time-given');
 
     //! Form control elements
-    const residentName = document.getElementById('resident-name');
+    const telegramUsername= document.getElementById('telegram-username');
     const submitBtn = document.getElementById('submit-btn');
     const roomNumber = document.getElementById('room-number');
     const laundaryNumber = document.getElementById('laundary-number');
@@ -108,7 +108,7 @@
     // Form control is done even the final submit button is clicked
     submitBtn.addEventListener('click', (e)=>
     {
-        let residentNameStr = residentName.value;
+        let residentNameStr = telegramUsername.value;
         let strippedStr = residentNameStr.trim(); 
 
         var isRoomOnlyNumber = /^\d+$/.test(roomNumber.value);

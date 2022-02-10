@@ -106,7 +106,7 @@ def dashboard():
 def addResident():
     if request.method == 'POST':
         resident = {    # Getting form requests to save data to the database
-            'fullname' : request.form.get('residentFullName'),
+            'telegramUsername' : request.form.get('telegramUsername'),
             'roomNum' : request.form.get('residentRoomNum'),
             'laundryNum' : request.form.get('laundryRooms'), 
             'coinCount' : request.form.get('coinCount'),
@@ -148,7 +148,7 @@ def startMessage():
     for i in logs.find().sort([('$natural', -1)]).limit(2): # query of last 2 logs
         last2logs.append(i)
 
-    currentUserName = last2logs[0]['fullname'] # generating fullname from query to send Telegram notifications
+    currentUserName = last2logs[0]['telegramUsername'] # generating fullname from query to send Telegram notifications
     currentUserId = last2logs[0]['_id'] # getting _id for queries
 
     startQuery = {'_id' : currentUserId}
@@ -180,7 +180,7 @@ def startMessageTwo():
     for i in logs.find().sort([('$natural', -1)]).limit(2): # query of last 2 logs
         last2logs.append(i)
 
-    currentUserName = last2logs[1]['fullname'] # generating fullname from query to send Telegram notifications
+    currentUserName = last2logs[1]['telegramUsername'] # generating fullname from query to send Telegram notifications
     currentUserId = last2logs[1]['_id'] # getting _id for queries
 
     startQuery = {'_id' : currentUserId}
@@ -210,7 +210,7 @@ def overtimeMessage():
     for i in logs.find().sort([('$natural', -1)]).limit(2): # query of last 2 logs
         last2logs.append(i)
 
-    currentUserName = last2logs[0]['fullname'] # generating fullname from query to send Telegram notifications
+    currentUserName = last2logs[0]['telegramUsername'] # generating fullname from query to send Telegram notifications
     currentUserId = last2logs[0]['_id'] # getting _id for queries
     
     overtimeQuery = {'_id' : currentUserId}
@@ -231,7 +231,7 @@ def overtimeMessageTwo():
     for i in logs.find().sort([('$natural', -1)]).limit(2): # query of last 2 logs
         last2logs.append(i)
 
-    currentUserName = last2logs[1]['fullname'] # generating fullname from query to send Telegram notifications
+    currentUserName = last2logs[1]['telegramUsername'] # generating fullname from query to send Telegram notifications
     currentUserId = last2logs[1]['_id'] # getting _id for queries
 
     overtimeQuery = {'_id' : currentUserId}
@@ -252,7 +252,7 @@ def stopMessage():
     for i in logs.find().sort([('$natural', -1)]).limit(2): # query of last 2 logs
         last2logs.append(i)
 
-    currentUserName = last2logs[0]['fullname'] # generating fullname from query to send Telegram notifications
+    currentUserName = last2logs[0]['telegramUsername'] # generating fullname from query to send Telegram notifications
     currentUserId = last2logs[0]['_id'] # getting _id for queries
     currentUserOvertimes = last2logs[0]['overtimeCount'] # getting overtimeCount for penalty calculation
 
@@ -293,7 +293,7 @@ def stopMessageTwo():
     for i in logs.find().sort([('$natural', -1)]).limit(2): # query of last 2 logs
         last2logs.append(i)
 
-    currentUserName = last2logs[1]['fullname'] # generating fullname from query to send Telegram notifications
+    currentUserName = last2logs[1]['telegramUsername'] # generating fullname from query to send Telegram notifications
     currentUserId = last2logs[1]['_id'] # getting _id for queries
     currentUserOvertimes = last2logs[1]['overtimeCount'] # getting overtimeCount for penalty calculation
 
