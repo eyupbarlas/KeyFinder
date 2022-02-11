@@ -217,9 +217,13 @@ def overtimeMessage():
     overtimeNewValues = {'$inc' : {'overtimeCount' : 1}} # increasing overtimeCount by 1
 
     logs.update_one(overtimeQuery, overtimeNewValues) # updating database
-    
-    print(color.PURPLE+"Sending overtime message to resident1...")
-    telegramNotificationSend(f"***@{currentUserName}***, your timer has been finished and you are on overtime. Current date and time: `{datetime.now()}`")    
+
+    #TODO: After stopping, no more overtime messages.
+    currentStopCount = last2logs[0]['stopCount']
+
+    if currentStopCount < 1:
+        print(color.PURPLE+"Sending overtime message to resident1...")
+        telegramNotificationSend(f"***@{currentUserName}***, your timer has been finished and you are on overtime. Current date and time: `{datetime.now()}`")    
 
     return ("overtimeMessage")
 
@@ -238,9 +242,13 @@ def overtimeMessageTwo():
     overtimeNewValues = {'$inc' : {'overtimeCount' : 1}} # increasing overtimeCount by 1
 
     logs.update_one(overtimeQuery, overtimeNewValues) # updating database
-        
-    print(color.PURPLE+"Sending overtime message to resident2...")
-    telegramNotificationSend(f"***@{currentUserName}***, your timer has been finished and you are on overtime. Current date and time: `{datetime.now()}`")
+
+    #TODO: After stopping, no more overtime messages.
+    currentStopCount = last2logs[1]['stopCount']
+
+    if currentStopCount < 1:
+        print(color.PURPLE+"Sending overtime message to resident2...")
+        telegramNotificationSend(f"***@{currentUserName}***, your timer has been finished and you are on overtime. Current date and time: `{datetime.now()}`")
 
     return ("overtimeMessageTwo")
 
