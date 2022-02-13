@@ -223,6 +223,8 @@ def overtimeMessage():
 
     if currentStopCount < 1:
         print(color.PURPLE+"Sending overtime message to resident1...")
+
+        #TODO: Below here, after fixing Issue 1, come here and change notifications.
         telegramNotificationSend(f"***@{currentUserName}***, your timer has been finished and you are on overtime. Current date and time: `{datetime.now()}`")    
 
     return ("overtimeMessage")
@@ -248,6 +250,8 @@ def overtimeMessageTwo():
 
     if currentStopCount < 1:
         print(color.PURPLE+"Sending overtime message to resident2...")
+
+        #TODO: Below here, after fixing Issue 1, come here and change notifications.
         telegramNotificationSend(f"***@{currentUserName}***, your timer has been finished and you are on overtime. Current date and time: `{datetime.now()}`")
 
     return ("overtimeMessageTwo")
