@@ -327,7 +327,7 @@ def stopMessageTwo():
         telegramNotificationSend(f"***@{currentUserName}***, your timer has been stopped. Current date and time: `{datetime.now()}`")
 
         if currentUserOvertimes > 0: # Check the overtimeCount here and send a final message says the total overtimed hours.
-            telegramNotificationSend(f"***@{currentUserName}***, you are {currentUserOvertimes} hours late. Total penalty is: `{currentUserOvertimes*5} PLN`.")
+            telegramNotificationSend(f"***@{currentUserName}***, you are {currentUserOvertimes} hours late.")
     
     return ("stopMessageTwo")
 
